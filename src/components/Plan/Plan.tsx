@@ -61,11 +61,17 @@ function Plan({ exercises, remove, reorder }: Props) {
             </td>
             <td className="px-6 py-4 whitespace-nowrap w-fit text-right flex flex-row justify-end gap-5">
               <BsArrowBarUp
-                className="cursor-pointer text-black w-[25px] h-[25px]"
+                className={`text-black ${
+                  index > 0 ? "cursor-pointer" : "text-gray-400"
+                } w-[25px] h-[25px]`}
                 onClick={() => moveUp(index)}
               />
               <BsArrowBarDown
-                className="cursor-pointer text-black w-[25px] h-[25px]"
+                className={`text-black ${
+                  index < exercises.length - 1
+                    ? "cursor-pointer"
+                    : "text-gray-400"
+                } w-[25px] h-[25px]`}
                 onClick={() => moveDown(index)}
               />
               <CgRemove

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import StandardButton from "../Button/StandardButton";
 
 export interface Exercise {
   name: string;
@@ -51,16 +52,14 @@ function PlannedExercise({ addExercise }: Props) {
         />
       </div>
       <div className="my-3 flex mt-5 items-center w-full justify-end">
-        <button
-          type="button"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded max-w-[100px] self-end"
+        <StandardButton
+          label="Add"
           onClick={() => {
             addExercise(exercise);
             setExercise(initialState);
           }}
-        >
-          Add
-        </button>
+          className="self-end max-w-[100px]"
+        />
       </div>
     </>
   );

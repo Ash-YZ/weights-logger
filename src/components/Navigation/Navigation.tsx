@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { CgCloseR } from "react-icons/cg";
+import { useAuthState } from "react-firebase-hooks/auth";
 import Dumbbell from "../../icons/dumbbell.svg";
-import Planner from "../../pages/Planner";
+import { auth } from "../../firebase/firebase";
 
 function Navigation() {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [user] = useAuthState(auth);
 
   return (
     <Router>
@@ -17,12 +18,14 @@ function Navigation() {
             Weights Logger
           </span>
         </div>
-        <div className="block">
-          <GiHamburgerMenu
-            className="cursor-pointer"
-            onClick={() => setIsMenuVisible(!isMenuVisible)}
-          />
-        </div>
+        {user && (
+          <div className="block">
+            <GiHamburgerMenu
+              className="cursor-pointer"
+              onClick={() => setIsMenuVisible(!isMenuVisible)}
+            />
+          </div>
+        )}
         {isMenuVisible && (
           <div className="absolute left-0 h-[90vh] w-full bg-gray-500 top-[85px]">
             <div className="flex items-center justify-between flex-wrap bg-gray-500 px-5 items-center align-middle">
@@ -37,10 +40,6 @@ function Navigation() {
           </div>
         )}
       </nav>
-
-      <Routes>
-        <Route path="/planner" element={<Planner />} />
-      </Routes>
     </Router>
   );
 }

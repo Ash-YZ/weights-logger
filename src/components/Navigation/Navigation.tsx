@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Dumbbell from "../../icons/dumbbell.svg";
-import { auth } from "../../firebase/firebase";
+import { auth, logout } from "../../firebase/firebase";
 
 function Navigation() {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -29,12 +29,32 @@ function Navigation() {
         <div className="absolute left-0 h-[90vh] w-full bg-gray-500 top-[85px] z-10">
           <div className="flex items-center justify-between flex-wrap bg-gray-500 px-5 items-center align-middle">
             <Link
-              to="/planner"
+              to="/dashboard"
               className="w-full border-b-2 border-t-2 text-center py-5"
+              onClick={() => setIsMenuVisible(!isMenuVisible)}
+            >
+              Dashboard
+            </Link>
+            <Link
+              to="/planner"
+              className="w-full border-b-2 text-center py-5"
               onClick={() => setIsMenuVisible(!isMenuVisible)}
             >
               Planner
             </Link>
+            <Link
+              to="/"
+              className="w-full border-b-2 text-center py-5"
+              onClick={() => {
+                setIsMenuVisible(!isMenuVisible);
+                logout();
+              }}
+            >
+              Logout
+            </Link>
+            <div className="w-full text-center py-20 text-xs">
+              Logged in as {user?.email}
+            </div>
           </div>
         </div>
       )}

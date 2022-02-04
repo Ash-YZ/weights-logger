@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { arrayMoveImmutable } from "array-move";
 import { ref, push, set, onValue } from "firebase/database";
+import { useLocation } from "react-router-dom";
 import Plan from "../components/Plan/Plan";
 import PlannedExercise, {
   Exercise,
@@ -10,21 +11,21 @@ import StandardButton from "../components/Button/StandardButton";
 import Modal from "../components/Modal/Modal";
 import StandardInput from "../components/Input/StandardInput";
 
-interface Props {
-  savedPlanId?: string;
-}
-
-function Planner({ savedPlanId = "-Mv3_sEpgcCaAHHC9ADb" }: Props) {
+function Planner() {
   const [planName, setPlanName] = useState<string>();
+  const [tempPlanName, setTempPlanName] = useState<string>();
   const [exercises, setExercises] = useState<Array<Exercise>>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [planId, setPlanId] = useState<string>();
   const [isPlanLoading, setIsPlanLoading] = useState(false);
 
+  const location = useLocation();
+
   useEffect(() => {
-    if (savedPlanId) {
+    if (location.state) {
       setIsPlanLoading(true);
+      const savedPlanId = (location.state as any).planId;
       const exercisesRef = ref(db, `plans/${savedPlanId}`);
       onValue(exercisesRef, (snapshot) => {
         const plan = snapshot.val();
@@ -52,11 +53,14 @@ function Planner({ savedPlanId = "-Mv3_sEpgcCaAHHC9ADb" }: Props) {
     setIsSaving(true);
 
     if (!planId) {
-      push(ref(db, `plans/`), { name: planName, exercises }).then((resp) => {
-        setPlanId(resp.key);
-        setIsSaving(false);
-        setIsModalOpen(false);
-      });
+      push(ref(db, `plans/`), { name: tempPlanName, exercises }).then(
+        (resp) => {
+          setPlanId(resp.key);
+          setPlanName(tempPlanName);
+          setIsSaving(false);
+          setIsModalOpen(false);
+        }
+      );
     } else {
       set(ref(db, `plans/${planId}`), { name: planName, exercises }).then(
         () => {
@@ -103,7 +107,7 @@ function Planner({ savedPlanId = "-Mv3_sEpgcCaAHHC9ADb" }: Props) {
           <StandardInput
             value={planName}
             name="plan_name"
-            onChange={(e) => setPlanName(e.target.value)}
+            onChange={(e) => setTempPlanName(e.target.value)}
           />
         </Modal>
       )}

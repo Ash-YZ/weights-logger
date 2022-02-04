@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import StandardButton from "../Button/StandardButton";
+import StandardInput from "../Input/StandardInput";
 
 export interface Exercise {
   name: string;
@@ -21,46 +22,40 @@ function PlannedExercise({ addExercise }: Props) {
   return (
     <>
       <div className="my-3 flex gap-5 items-center w-full">
-        <h3 className="text-xl min-w-[100px]">Exercise:</h3>
-        <input
+        <StandardInput
+          label="Exercise:"
           value={exercise.name}
-          className="border py-2 px-3 w-full text-black"
-          type="text"
           name="exercise_name"
           onChange={(e) => setExercise({ ...exercise, name: e.target.value })}
         />
       </div>
       <div className="my-3 flex gap-5 items-center w-full">
-        <h3 className="text-xl min-w-[100px]">Sets:</h3>
-        <input
+        <StandardInput
+          label="Sets:"
           value={exercise.sets}
-          className="border py-2 px-3 text-black"
-          type="text"
           name="exercise_sets"
           onChange={(e) => setExercise({ ...exercise, sets: e.target.value })}
         />
       </div>
       <div className="my-3 flex gap-5 items-center w-full">
-        <h3 className="text-xl min-w-[100px]">Reps:</h3>
-        <input
+        <StandardInput
+          label="Reps"
           value={exercise.reps}
-          className="border py-2 px-3 text-black"
-          type="text"
           name="exercise_reps"
-          id="first_name"
           onChange={(e) => setExercise({ ...exercise, reps: e.target.value })}
         />
       </div>
       <div className="my-3 flex mt-5 items-center w-full justify-end">
         <StandardButton
-          label="Add"
+          label="Add to plan"
           onClick={() => {
             addExercise(exercise);
             setExercise(initialState);
           }}
-          className="self-end max-w-[100px]"
+          className="w-full"
         />
       </div>
+      <div className="w-full border-b-4 border-white my-10" />
     </>
   );
 }

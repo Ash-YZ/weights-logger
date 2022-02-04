@@ -10,9 +10,9 @@ import Dashboard from "./pages/Dashboard";
 function App() {
   return (
     <div className="bg-gray-700 text-white h-[100vh] w-full p-5">
-      <Navigation />
-      {/* <Planner /> */}
       <Router>
+        <Navigation />
+
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />

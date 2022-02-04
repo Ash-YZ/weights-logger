@@ -24,6 +24,7 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": ["error"],
     "react/no-array-index-key": [0],
     "react/require-default-props": [0],
+    "consistent-return": [0],
     "react/jsx-filename-extension": [
       1,
       {

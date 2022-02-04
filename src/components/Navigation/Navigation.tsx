@@ -26,7 +26,7 @@ function Navigation() {
         </div>
       )}
       {isMenuVisible && (
-        <div className="absolute left-0 h-[90vh] w-full bg-gray-500 top-[85px]">
+        <div className="absolute left-0 h-[90vh] w-full bg-gray-500 top-[85px] z-10">
           <div className="flex items-center justify-between flex-wrap bg-gray-500 px-5 items-center align-middle">
             <Link
               to="/planner"

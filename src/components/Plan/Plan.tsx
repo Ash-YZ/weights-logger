@@ -1,32 +1,47 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CgRemove } from "react-icons/cg";
-import { BsArrowBarDown, BsArrowBarUp } from "react-icons/bs";
+import tableDragger from "table-dragger";
 import { Exercise } from "../Exercise/PlannedExercise";
 import Loader from "../Loader/Loader";
 
 interface Props {
   exercises: Array<Exercise>;
   remove: (index: number) => void;
-  reorder: (direction: "UP" | "DOWN", index: number) => void;
+  reorder: (from: number, to: number) => void;
   isPlanLoading?: boolean;
 }
 
 function Plan({ exercises, remove, reorder, isPlanLoading }: Props) {
-  const moveUp = (index: number) => {
-    reorder("UP", index);
-  };
+  useEffect(() => {
+    let dragger;
+    if (exercises.length > 0) {
+      const el = document.getElementById("plannerTable");
+      dragger = tableDragger(el, {
+        mode: "row",
+        dragHandler: ".draggable",
+        onlyBody: true,
+        animation: 300,
+      });
+      dragger.on("drop", (from, to) => {
+        reorder(from, to);
+      });
+    }
 
-  const moveDown = (index: number) => {
-    reorder("DOWN", index);
-  };
+    return () => {
+      if (dragger) dragger.destroy();
+    };
+  }, [isPlanLoading]);
 
   return (
-    <table className="w-full divide-y divide-gray-200 text-lg">
+    <table
+      id="plannerTable"
+      className="w-full divide-y divide-gray-200 text-lg"
+    >
       <thead className="bg-gray-50">
         <tr>
           <th
             scope="col"
-            className="px-6 py-3 text-left font-medium text-gray-500 tracking-wider max-w-[40%]"
+            className="px-6 py-3 text-left font-medium text-gray-500 tracking-wider max-w-[50%]"
           >
             Exercise
           </th>
@@ -44,11 +59,9 @@ function Plan({ exercises, remove, reorder, isPlanLoading }: Props) {
           </th>
           <th
             scope="col"
-            className="px-6 py-4 whitespace-nowrap w-fit text-right flex flex-row justify-end gap-5"
+            className="py-4 w-fit text-right flex flex-row justify-end"
           >
-            <div className="w-[25px] h-[25px]" />
-            <div className="w-[25px] h-[25px]" />
-            <div className="w-[25px] h-[25px]" />
+            <div className="w-[20px] h-[20px]" />
           </th>
         </tr>
       </thead>
@@ -62,6 +75,7 @@ function Plan({ exercises, remove, reorder, isPlanLoading }: Props) {
         )}
         {exercises.map((exercise, index) => (
           <tr
+            className="draggable"
             key={`${exercise.name.replaceAll(" ", "")}_${Math.random() * 10}`}
           >
             <td className="px-6 py-4 break-words w-[40%] max-w-[50px]">
@@ -73,23 +87,9 @@ function Plan({ exercises, remove, reorder, isPlanLoading }: Props) {
             <td className="px-6 py-4 w-[20%] text-center">
               <div className="text-gray-900">{exercise.reps}</div>
             </td>
-            <td className="px-6 py-4 w-fit text-right flex flex-row justify-end gap-5 items-center">
-              <BsArrowBarUp
-                className={`text-black ${
-                  index > 0 ? "cursor-pointer" : "text-gray-400"
-                } w-[25px] h-[25px]`}
-                onClick={() => moveUp(index)}
-              />
-              <BsArrowBarDown
-                className={`text-black ${
-                  index < exercises.length - 1
-                    ? "cursor-pointer"
-                    : "text-gray-400"
-                } w-[25px] h-[25px]`}
-                onClick={() => moveDown(index)}
-              />
+            <td className="py-4 w-full text-right flex flex-row justify-end items-center pr-[50%]">
               <CgRemove
-                className="cursor-pointer text-black w-[25px] h-[25px]"
+                className="cursor-pointer text-gray-500 min-w-[20px] min-h-[20px]"
                 onClick={() => remove(index)}
               />
             </td>

@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    min-width: 370px;
+}
 input {
     color: black;
 }
+
+.gu-unselectable .gu-mirror *, .gu-unselectable .sindu_handle * {
+width: 100% !important;
+}
+

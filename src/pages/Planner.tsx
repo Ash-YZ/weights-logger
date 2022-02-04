@@ -44,10 +44,8 @@ function Planner({ savedPlanId = "-Mv3_sEpgcCaAHHC9ADb" }: Props) {
       exercises.filter((exercise, arrayIndex) => arrayIndex !== indexToRemove)
     );
 
-  const reorder = (direction: "UP" | "DOWN", index: number) => {
-    const moveTo = direction === "UP" ? index - 1 : index + 1;
-    if (moveTo > -1 && moveTo < exercises.length)
-      setExercises(arrayMoveImmutable(exercises, index, moveTo));
+  const reorder = (from: number, to: number) => {
+    setExercises(arrayMoveImmutable(exercises, from - 1, to - 1));
   };
 
   const savePlan = async () => {

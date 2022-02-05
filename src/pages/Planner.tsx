@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { arrayMoveImmutable } from "array-move";
-import { ref, push, set, onValue } from "firebase/database";
-import { useLocation } from "react-router-dom";
+import { onValue, push, ref, set } from "firebase/database";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import Plan from "../components/Plan/Plan";
 import PlannedExercise, {
   Exercise,
@@ -21,6 +22,7 @@ function Planner() {
   const [isPlanLoading, setIsPlanLoading] = useState(false);
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (location.state) {
@@ -55,17 +57,17 @@ function Planner() {
     if (!planId) {
       push(ref(db, `plans/`), { name: tempPlanName, exercises }).then(
         (resp) => {
+          setIsModalOpen(false);
           setPlanId(resp.key);
           setPlanName(tempPlanName);
           setIsSaving(false);
-          setIsModalOpen(false);
         }
       );
     } else {
       set(ref(db, `plans/${planId}`), { name: planName, exercises }).then(
         () => {
-          setIsSaving(false);
           setIsModalOpen(false);
+          setIsSaving(false);
         }
       );
     }
@@ -89,9 +91,21 @@ function Planner() {
       </div>
       <StandardButton
         label={`Save ${planId ? "updates to" : ""} plan`}
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => {
+          if (!planName) setIsModalOpen(true);
+          else savePlan();
+        }}
         className="w-full"
         disabled={exercises.length === 0}
+      />
+      <StandardButton
+        label="Create a new plan"
+        onClick={() => {
+          navigate("/planner", { replace: true });
+          window.location.reload();
+        }}
+        className="w-full mt-[20px]"
+        type="secondary"
       />
 
       {isModalOpen && (

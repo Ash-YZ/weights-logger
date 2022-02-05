@@ -30,7 +30,7 @@ function Plan({ exercises, remove, reorder, isPlanLoading }: Props) {
     return () => {
       if (dragger) dragger.destroy();
     };
-  }, [isPlanLoading]);
+  }, [isPlanLoading, exercises]);
 
   return (
     <table

@@ -23,7 +23,7 @@ function PlannedExercise({ addExercise }: Props) {
     <>
       <div className="my-3 flex gap-5 items-center w-full">
         <StandardInput
-          label="Exercise:"
+          placeholder="Exercise"
           value={exercise.name}
           name="exercise_name"
           onChange={(e) => setExercise({ ...exercise, name: e.target.value })}
@@ -31,7 +31,7 @@ function PlannedExercise({ addExercise }: Props) {
       </div>
       <div className="my-3 flex gap-5 items-center w-full">
         <StandardInput
-          label="Sets:"
+          placeholder="Sets"
           value={exercise.sets}
           name="exercise_sets"
           onChange={(e) => setExercise({ ...exercise, sets: e.target.value })}
@@ -39,7 +39,7 @@ function PlannedExercise({ addExercise }: Props) {
       </div>
       <div className="my-3 flex gap-5 items-center w-full">
         <StandardInput
-          label="Reps"
+          placeholder="Reps"
           value={exercise.reps}
           name="exercise_reps"
           onChange={(e) => setExercise({ ...exercise, reps: e.target.value })}

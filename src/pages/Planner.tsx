@@ -16,7 +16,8 @@ function Planner() {
   const [planName, setPlanName] = useState<string>();
   const [tempPlanName, setTempPlanName] = useState<string>();
   const [exercises, setExercises] = useState<Array<Exercise>>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [planId, setPlanId] = useState<string>();
   const [isPlanLoading, setIsPlanLoading] = useState(false);
@@ -39,8 +40,10 @@ function Planner() {
     }
   }, []);
 
-  const addExercise = (exercise: Exercise) =>
+  const addExercise = (exercise: Exercise) => {
     setExercises([...exercises, exercise]);
+    setIsAddModalOpen(false);
+  };
 
   const removeExercise = (indexToRemove: number) =>
     setExercises(
@@ -58,7 +61,7 @@ function Planner() {
       push(ref(db, `plans/`), { name: tempPlanName, exercises }).then(
         (resp) => {
           setIsSaving(false);
-          setIsModalOpen(false);
+          setIsSaveModalOpen(false);
           setPlanId(resp.key);
           setPlanName(tempPlanName);
         }
@@ -66,7 +69,7 @@ function Planner() {
     } else {
       set(ref(db, `plans/${planId}`), { name: planName, exercises }).then(
         () => {
-          setIsModalOpen(false);
+          setIsSaveModalOpen(false);
           setIsSaving(false);
         }
       );
@@ -87,12 +90,16 @@ function Planner() {
         />
       </div>
       <div className="mt-10">
-        <PlannedExercise addExercise={addExercise} />
+        <StandardButton
+          label="Add an exercise"
+          onClick={() => setIsAddModalOpen(true)}
+          className="w-full mb-[10px]"
+        />
       </div>
       <StandardButton
         label={`Save ${planId ? "updates to" : ""} plan`}
         onClick={() => {
-          if (!planName) setIsModalOpen(true);
+          if (!planName) setIsSaveModalOpen(true);
           else savePlan();
         }}
         className="w-full"
@@ -108,12 +115,12 @@ function Planner() {
         type="secondary"
       />
 
-      {isModalOpen && (
+      {isSaveModalOpen && (
         <Modal
           title="Plan Name"
           description="Give your plan a name"
           closeButtonLabel="Cancel"
-          onClose={() => setIsModalOpen(false)}
+          onClose={() => setIsSaveModalOpen(false)}
           saveButtonLabel="Save"
           onSave={() => savePlan()}
           isLoading={isSaving}
@@ -123,6 +130,17 @@ function Planner() {
             name="plan_name"
             onChange={(e) => setTempPlanName(e.target.value)}
           />
+        </Modal>
+      )}
+
+      {isAddModalOpen && (
+        <Modal
+          title="Add"
+          description="Add an exercise"
+          closeButtonLabel="Cancel"
+          onClose={() => setIsAddModalOpen(false)}
+        >
+          <PlannedExercise addExercise={addExercise} />
         </Modal>
       )}
     </div>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { arrayMoveImmutable } from "array-move";
 import { onValue, push, ref, set } from "firebase/database";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -50,10 +49,6 @@ function Planner() {
       exercises.filter((exercise, arrayIndex) => arrayIndex !== indexToRemove)
     );
 
-  const reorder = (from: number, to: number) => {
-    setExercises(arrayMoveImmutable(exercises, from - 1, to - 1));
-  };
-
   const savePlan = async () => {
     setIsSaving(true);
 
@@ -85,7 +80,6 @@ function Planner() {
         <Plan
           exercises={exercises}
           remove={removeExercise}
-          reorder={reorder}
           isPlanLoading={isPlanLoading}
         />
       </div>

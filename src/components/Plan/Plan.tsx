@@ -1,37 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { CgRemove } from "react-icons/cg";
-import tableDragger from "table-dragger";
 import { Exercise } from "../Exercise/PlannedExercise";
 import Loader from "../Loader/Loader";
 
 interface Props {
   exercises: Array<Exercise>;
   remove: (index: number) => void;
-  reorder: (from: number, to: number) => void;
   isPlanLoading?: boolean;
 }
 
-function Plan({ exercises, remove, reorder, isPlanLoading }: Props) {
-  useEffect(() => {
-    let dragger;
-    if (exercises.length > 0) {
-      const el = document.getElementById("plannerTable");
-      dragger = tableDragger(el, {
-        mode: "row",
-        dragHandler: ".draggable",
-        onlyBody: true,
-        animation: 300,
-      });
-      dragger.on("drop", (from, to) => {
-        reorder(from, to);
-      });
-    }
-
-    return () => {
-      if (dragger) dragger.destroy();
-    };
-  }, [isPlanLoading, exercises]);
-
+function Plan({ exercises, remove, isPlanLoading }: Props) {
   return (
     <table
       id="plannerTable"
@@ -75,10 +53,9 @@ function Plan({ exercises, remove, reorder, isPlanLoading }: Props) {
         )}
         {exercises.map((exercise, index) => (
           <tr
-            className="draggable"
             key={`${exercise.name.replaceAll(" ", "")}_${Math.random() * 10}`}
           >
-            <td className="px-6 py-4 break-words w-[40%] max-w-[50px]">
+            <td className="px-6 py-4  w-[40%] max-w-[50px] overflow-hidden">
               <div className="text-gray-900">{exercise.name}</div>
             </td>
             <td className="px-6 py-4 w-[20%] text-center">

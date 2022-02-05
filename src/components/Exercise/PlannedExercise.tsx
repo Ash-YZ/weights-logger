@@ -34,6 +34,7 @@ function PlannedExercise({ addExercise }: Props) {
           placeholder="Sets"
           value={exercise.sets}
           name="exercise_sets"
+          type="number"
           onChange={(e) => setExercise({ ...exercise, sets: e.target.value })}
         />
       </div>
@@ -42,6 +43,7 @@ function PlannedExercise({ addExercise }: Props) {
           placeholder="Reps"
           value={exercise.reps}
           name="exercise_reps"
+          type="number"
           onChange={(e) => setExercise({ ...exercise, reps: e.target.value })}
         />
       </div>
@@ -53,6 +55,7 @@ function PlannedExercise({ addExercise }: Props) {
             setExercise(initialState);
           }}
           className="w-full"
+          disabled={!exercise.name && !exercise.sets && !exercise.reps}
         />
       </div>
       <div className="w-full border-b-4 border-white my-10" />

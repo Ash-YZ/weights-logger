@@ -57,10 +57,10 @@ function Planner() {
     if (!planId) {
       push(ref(db, `plans/`), { name: tempPlanName, exercises }).then(
         (resp) => {
+          setIsSaving(false);
           setIsModalOpen(false);
           setPlanId(resp.key);
           setPlanName(tempPlanName);
-          setIsSaving(false);
         }
       );
     } else {

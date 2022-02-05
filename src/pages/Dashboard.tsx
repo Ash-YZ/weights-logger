@@ -5,11 +5,13 @@ import { onValue, ref, remove } from "firebase/database";
 import { CgRemove } from "react-icons/cg";
 import { auth, db } from "../firebase/firebase";
 import StandardButton from "../components/Button/StandardButton";
+import Modal from "../components/Modal/Modal";
 
 function Dashboard() {
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   const [plans, setPlans] = useState<any>();
+  const [confirmDeleteFor, setConfirmDeleteFor] = useState<string | null>();
 
   useEffect(() => {
     if (loading) return;
@@ -27,6 +29,7 @@ function Dashboard() {
   }, []);
 
   const deletePlan = (planId) => {
+    setConfirmDeleteFor(null);
     const planRef = ref(db, `plans/${planId}`);
     remove(planRef);
   };
@@ -36,7 +39,10 @@ function Dashboard() {
     if (plans) {
       Object.entries(plans).forEach(([key, value]) => {
         ret.push(
-          <li key={key} className="flex justify-between w-1/2 items-center">
+          <li
+            key={key}
+            className="flex justify-between w-full p-[8px] border-2 mb-[10px] items-center"
+          >
             <Link
               to="/planner"
               state={{ planId: key }}
@@ -46,8 +52,8 @@ function Dashboard() {
             </Link>
 
             <CgRemove
-              className="cursor-pointer text-white min-w-[20px] min-h-[20px]"
-              onClick={() => deletePlan(key)}
+              className="cursor-pointer text-white min-w-[25px] min-h-[25px]"
+              onClick={() => setConfirmDeleteFor(key)}
             />
           </li>
         );
@@ -82,6 +88,17 @@ function Dashboard() {
             </Link>
           </div>
         </div>
+      )}
+
+      {confirmDeleteFor && (
+        <Modal
+          title="Confirm delete"
+          description="Are you sure you would like to delete this plan"
+          closeButtonLabel="Cancel"
+          onClose={() => setConfirmDeleteFor(null)}
+          saveButtonLabel="Confirm"
+          onSave={() => deletePlan(confirmDeleteFor)}
+        />
       )}
     </div>
   );

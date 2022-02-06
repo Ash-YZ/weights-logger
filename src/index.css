@@ -18,3 +18,9 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance: textfield;
 }
+
+body {
+    @apply bg-gray-700;
+    max-width: 700px;
+    margin: 0 auto;
+}

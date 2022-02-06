@@ -24,7 +24,7 @@ function Training() {
 
   const [selectedExercise, setSelectedExercise] = useState<number>(-1);
 
-  useEffect(() => console.log(exercises), [exercises]);
+  // useEffect(() => console.log(exercises), [exercises]);
 
   const updatePlan = (records) => {
     const exercisesCopy = [...exercises];
@@ -65,18 +65,18 @@ function Training() {
       />
 
       {selectedExercise > -1 ? (
-        <>
-          <div className="mt-[20px] text-center">
-            Target reps: {exercises[selectedExercise]?.reps}
-          </div>
-
-          <div className="mt-[20px]">
-            <SetCounter
-              totalSets={parseInt(exercises[selectedExercise].sets, 10)}
-              updatePlan={updatePlan}
-            />
-          </div>
-        </>
+        <div className="mt-[20px]">
+          <SetCounter
+            repTarget={exercises[selectedExercise]?.reps}
+            totalSets={parseInt(exercises[selectedExercise].sets, 10)}
+            updatePlan={updatePlan}
+            lastRecord={
+              exercises[selectedExercise].records
+                ? exercises[selectedExercise].records.slice(-1)[0].setRecord
+                : null
+            }
+          />
+        </div>
       ) : (
         <div />
       )}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { onValue, push, ref, set } from "firebase/database";
+import { onValue, ref, set } from "firebase/database";
 import { useLocation } from "react-router-dom";
 import { Exercise } from "../components/Exercise/PlannedExercise";
 import { db } from "../firebase/firebase";

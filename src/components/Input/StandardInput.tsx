@@ -21,7 +21,7 @@ function StandardInput({
 }: Props) {
   return (
     <>
-      {label && <h3 className="text-xl min-w-[100px]">{label}</h3>}
+      {label && <h3 className="text-xl">{label}</h3>}
       <input
         value={value}
         className={`border py-2 px-3 w-full text-black ${className || ""}`}

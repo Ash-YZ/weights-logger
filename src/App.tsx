@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Reset from "./pages/Reset";
 import Dashboard from "./pages/Dashboard";
+import Training from "./pages/Training";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/reset" element={<Reset />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/planner" element={<Planner />} />
+          <Route path="/training" element={<Training />} />
         </Routes>
       </Router>
     </div>

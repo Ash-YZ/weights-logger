@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { onValue, push, ref, set } from "firebase/database";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import Plan from "../components/Plan/Plan";
 import PlannedExercise, {
@@ -90,15 +90,25 @@ function Planner() {
           className="w-full mb-[10px]"
         />
       </div>
+
       <StandardButton
         label={`Save ${planId ? "updates to" : ""} plan`}
         onClick={() => {
           if (!planName) setIsSaveModalOpen(true);
           else savePlan();
         }}
-        className="w-full"
+        className="w-full mb-[10px]"
         disabled={exercises.length === 0}
       />
+
+      <Link to="/training" state={{ planId }}>
+        <StandardButton
+          label="Start training!"
+          onClick={() => {}}
+          className="w-full"
+        />
+      </Link>
+
       <StandardButton
         label="Create a new plan"
         onClick={() => {

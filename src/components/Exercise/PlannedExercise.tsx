@@ -2,11 +2,22 @@ import React, { useState } from "react";
 import StandardButton from "../Button/StandardButton";
 import StandardInput from "../Input/StandardInput";
 
+export interface SetRecord {
+  weight: string;
+  reps: string;
+}
+export interface ExerciseRecord {
+  date: string;
+  setRecord: Array<SetRecord>;
+}
+
 export interface Exercise {
   name: string;
   reps: string;
   sets: string;
+  records: Array<ExerciseRecord>;
 }
+
 interface Props {
   addExercise: (exercise: Exercise) => void;
 }
@@ -16,6 +27,7 @@ function PlannedExercise({ addExercise }: Props) {
     name: "",
     reps: "",
     sets: "",
+    records: [],
   };
   const [exercise, setExercise] = useState<Exercise>(initialState);
 

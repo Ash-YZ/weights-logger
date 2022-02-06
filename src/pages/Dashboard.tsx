@@ -92,8 +92,8 @@ function Dashboard() {
 
       {confirmDeleteFor && (
         <Modal
-          title="Confirm delete"
-          description="Are you sure you would like to delete this plan"
+          title="Delete plan"
+          description="Note: This will delete your training record for this plan too!"
           closeButtonLabel="Cancel"
           onClose={() => setConfirmDeleteFor(null)}
           saveButtonLabel="Confirm"

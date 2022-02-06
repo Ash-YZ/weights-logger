@@ -10,7 +10,7 @@ function Navigation() {
   const [user] = useAuthState(auth);
 
   return (
-    <nav className=" relative flex items-center justify-between flex-wrap bg-gray-500 px-6 py-4 items-center align-middle">
+    <nav className=" relative flex items-center justify-between flex-wrap bg-gray-500 p-6 items-center align-middle">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
         <img src={Dumbbell} alt="Dumbbell Logo" className="h-[40px] mr-5" />
         <span className="font-semibold text-xl tracking-tight">

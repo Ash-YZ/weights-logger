@@ -5,6 +5,7 @@ import { Exercise } from "../components/Exercise/PlannedExercise";
 import { db } from "../firebase/firebase";
 import Dropdown from "../components/Dropdown/Dropdown";
 import SetCounter from "../components/SetCounter/SetCounter";
+import Timer from "../components/Timer/Timer";
 
 function Training() {
   const location = useLocation();
@@ -79,6 +80,11 @@ function Training() {
         </div>
       ) : (
         <div />
+      )}
+      {selectedExercise > -1 && (
+        <div className="w-full mt-[20px] flex justify-center">
+          <Timer />
+        </div>
       )}
     </>
   );

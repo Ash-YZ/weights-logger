@@ -29,7 +29,7 @@ function Login() {
           Error. Please try again later.
         </h1>
       ) : (
-        <div className="flex flex-col text-center bg-gray-500 p-[30px]">
+        <div className="flex flex-col text-center bg-gray-500 p-[15px]">
           <h1 className="text-xl font-semibold mb-[30px]">Login</h1>
           <input
             type="text"

@@ -39,23 +39,23 @@ function Dashboard() {
     if (plans) {
       Object.entries(plans).forEach(([key, value]) => {
         ret.push(
-          <li
-            key={key}
-            className="flex justify-between w-full p-[8px] border-2 mb-[10px] items-center"
-          >
-            <Link
-              to="/planner"
-              state={{ planId: key }}
-              className="text-xl w-[80%]"
-            >
-              {(value as any)?.name}
-            </Link>
-
-            <CgRemove
-              className="cursor-pointer text-white min-w-[25px] min-h-[25px]"
-              onClick={() => setConfirmDeleteFor(key)}
-            />
-          </li>
+          <tr key={key}>
+            <td className="px-4 w-[90%] text-left">
+              <Link
+                to="/planner"
+                state={{ planId: key }}
+                className="text-[15px] w-full inline-block"
+              >
+                {(value as any)?.name}
+              </Link>{" "}
+            </td>
+            <td className="flex py-[10px] px-4 items-center justify-end">
+              <CgRemove
+                className="cursor-pointer text-black min-w-[22px] min-h-[22px]"
+                onClick={() => setConfirmDeleteFor(key)}
+              />
+            </td>
+          </tr>
         );
       });
     }
@@ -70,15 +70,17 @@ function Dashboard() {
           Error. Please try again later.
         </h1>
       ) : (
-        <div className="flex flex-col p-[30px]">
+        <div className="flex flex-col p-[15px]">
           <div className="mb-[30px]">
             <h1 className="text-2xl font-semibold mb-[30px]">Welcome back!</h1>
             {plans && (
               <>
-                <h1 className="text-2xl mb-[10px]">Saved plans:</h1>
-                <div className="mb-[10px]">
-                  <ul>{getPlansList()}</ul>
-                </div>
+                <h1 className="text-[15px] mb-[10px]">Saved plans:</h1>
+                <table className="w-full divide-y divide-gray-200 text-lg text-black">
+                  <tbody className="bg-white divide-y divide-gray-200 text-sm">
+                    {getPlansList()}
+                  </tbody>
+                </table>
               </>
             )}
           </div>

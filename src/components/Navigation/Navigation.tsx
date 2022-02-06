@@ -10,7 +10,7 @@ function Navigation() {
   const [user] = useAuthState(auth);
 
   return (
-    <nav className=" relative flex items-center justify-between flex-wrap bg-gray-500 p-6 items-center align-middle">
+    <nav className=" relative flex items-center justify-between flex-wrap bg-gray-500 p-[15px] items-center align-middle">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
         <img src={Dumbbell} alt="Dumbbell Logo" className="h-[40px] mr-5" />
         <span className="font-semibold text-xl tracking-tight">
@@ -26,8 +26,8 @@ function Navigation() {
         </div>
       )}
       {isMenuVisible && (
-        <div className="absolute left-0 h-[80vh] w-full bg-gray-500 top-[85px] z-10">
-          <div className="flex items-center justify-between flex-wrap bg-gray-500 px-5 items-center align-middle">
+        <div className="absolute left-0 h-[80vh] w-full bg-gray-500 top-[70px] z-10">
+          <div className="flex items-center justify-between flex-wrap bg-gray-500 px-0 items-center align-middle">
             <Link
               to="/dashboard"
               className="w-full border-b-2 border-t-2 text-center py-5"

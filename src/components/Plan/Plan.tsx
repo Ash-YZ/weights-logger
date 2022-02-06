@@ -11,10 +11,7 @@ interface Props {
 
 function Plan({ exercises, remove, isPlanLoading }: Props) {
   return (
-    <table
-      id="plannerTable"
-      className="w-full divide-y divide-gray-200 text-lg"
-    >
+    <table className="w-full divide-y divide-gray-200 text-lg">
       <thead className="bg-gray-50">
         <tr>
           <th
@@ -64,7 +61,7 @@ function Plan({ exercises, remove, isPlanLoading }: Props) {
             <td className="px-6 py-4 w-[20%] text-center">
               <div className="text-gray-900">{exercise.reps}</div>
             </td>
-            <td className="py-4 w-full text-right flex flex-row justify-end items-center pr-[50%]">
+            <td className="py-4 items-center">
               <CgRemove
                 className="cursor-pointer text-gray-500 min-w-[20px] min-h-[20px]"
                 onClick={() => remove(index)}

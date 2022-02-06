@@ -106,6 +106,7 @@ function Planner() {
           label="Start training!"
           onClick={() => {}}
           className="w-full"
+          disabled={!planId}
         />
       </Link>
 

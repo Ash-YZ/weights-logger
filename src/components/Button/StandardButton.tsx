@@ -21,7 +21,7 @@ function StandardButton({
   return (
     <button
       type="button"
-      className={`flex bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded ${
+      className={`flex bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded justify-center ${
         className ?? ""
       } ${disabled ? "bg-gray-400 hover:bg-gray-400 text-gray-700" : ""}
       ${type === "secondary" ? "bg-blue-900" : ""}`}

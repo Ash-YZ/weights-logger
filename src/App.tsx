@@ -10,7 +10,7 @@ import Training from "./pages/Training";
 
 function App() {
   return (
-    <div className="bg-gray-700 text-white h-[100vh] w-full p-5">
+    <div className="bg-gray-700 text-white h-[100vh] w-full p-[7px]">
       <Router>
         <Navigation />
 

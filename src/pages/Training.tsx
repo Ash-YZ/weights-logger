@@ -49,7 +49,7 @@ function Training() {
     setSelectedExercise(-1);
 
     set(ref(db, `plans/${planId}`), { name: planName, exercises }).then(() => {
-      console.log("SAVED!");
+      console.log("SAVED PLAN!");
     });
   };
 

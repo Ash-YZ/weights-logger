@@ -120,6 +120,15 @@ function Planner() {
         type="secondary"
       />
 
+      <Link to="/dashboard">
+        <StandardButton
+          label="Return to dashboard"
+          onClick={() => {}}
+          className="w-full mt-[10px]"
+          type="secondary"
+        />
+      </Link>
+
       {isSaveModalOpen && (
         <Modal
           title="Plan Name"

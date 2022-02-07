@@ -25,8 +25,6 @@ function Training() {
 
   const [selectedExercise, setSelectedExercise] = useState<number>(-1);
 
-  // useEffect(() => console.log(exercises), [exercises]);
-
   const updatePlan = (records) => {
     const exercisesCopy = [...exercises];
     exercisesCopy[selectedExercise].records = exercisesCopy[selectedExercise]
@@ -59,6 +57,7 @@ function Training() {
 
       <Dropdown
         label="Choose an exercise"
+        warningMessage="Current exercise progress will be reset"
         parentSelectedOption={selectedExercise}
         options={exercises.map((e) => e.name)}
         selectOption={(index: number) => setSelectedExercise(index)}

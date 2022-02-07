@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import Modal from "../Modal/Modal";
 
 interface Props {
   label: string;
@@ -7,6 +8,7 @@ interface Props {
   parentSelectedOption?: number;
   selectOption: (optionIndex: number) => void;
   className?: string;
+  warningMessage?: string;
 }
 
 function Dropdown({
@@ -15,12 +17,34 @@ function Dropdown({
   parentSelectedOption,
   selectOption,
   className,
+  warningMessage,
 }: Props) {
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
+  const [isWarningVisible, setIsWarningVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string>();
 
+  useEffect(() => {
+    if (parentSelectedOption === -1) setSelectedOption(null);
+  }, [parentSelectedOption]);
+
   return (
-    <>
+    <div>
+      {isWarningVisible && (
+        <div className="absolute left-[50%] z-10">
+          <Modal
+            title="Warning"
+            description={warningMessage}
+            closeButtonLabel="Cancel"
+            onClose={() => setIsWarningVisible(false)}
+            saveButtonLabel="Continue"
+            onSave={() => {
+              setIsWarningVisible(false);
+              setIsOptionsVisible(true);
+            }}
+          />
+        </div>
+      )}
+
       {isOptionsVisible && (
         <div className="absolute w-screen h-screen bg-gray-500 z-10 top-0 left-0 pt-[80px] text-xl">
           {options.map((option, index) => {
@@ -43,19 +67,21 @@ function Dropdown({
           })}
         </div>
       )}
+
       <button
         type="button"
         className={`cursor-pointer relative w-full bg-white h-[40px] flex items-center justify-center text-black capitalize ${
           className || ""
         }`}
         onClick={() => {
-          setIsOptionsVisible(true);
+          if (warningMessage && selectedOption) setIsWarningVisible(true);
+          else setIsOptionsVisible(true);
         }}
       >
         {parentSelectedOption === -1 ? label : selectedOption ?? label}
         <RiArrowDropDownLine className="absolute w-[35px] h-[35px] right-0" />
       </button>
-    </>
+    </div>
   );
 }
 

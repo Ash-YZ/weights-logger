@@ -32,10 +32,19 @@ function SetCounter({ repTarget, totalSets, updatePlan, lastRecord }: Props) {
           <div>{repTarget}</div>
         </div>
         {lastRecord && (
-          <div className="text-center text-lg flex flex-col border-2 py-[5px] px-[30px] w-1/3">
+          <button
+            type="button"
+            className="text-center text-lg flex flex-col border-2 py-[5px] px-[30px] w-1/3 cursor-pointer items-center bg-blue-500"
+            onClick={() => {
+              setThisSetRecord({
+                ...thisSetRecord,
+                weight: lastRecord[setCount - 1].weight,
+              });
+            }}
+          >
             <div>Weight</div>
             <div>{lastRecord ? lastRecord[setCount - 1].weight : ""}</div>
-          </div>
+          </button>
         )}
       </div>
 

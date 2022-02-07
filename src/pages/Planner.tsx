@@ -110,6 +110,15 @@ function Planner() {
         />
       </Link>
 
+      <Link to="/history" state={{ planId }}>
+        <StandardButton
+          label="View plan history"
+          onClick={() => {}}
+          className="w-full mt-[10px]"
+          disabled={!planId}
+        />
+      </Link>
+
       <StandardButton
         label="Create a new plan"
         onClick={() => {

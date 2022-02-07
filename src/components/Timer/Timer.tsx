@@ -6,6 +6,32 @@ function Timer() {
   const [start, setStart] = useState(false);
 
   useEffect(() => {
+    const handleWindowFocus = () => {
+      if (start) {
+        const prevTime = parseInt(sessionStorage.getItem("WL_TIMER"), 10);
+        const now = new Date().getTime();
+
+        const secondsElapsed = (now - prevTime) / 1000;
+        setTime(time + secondsElapsed);
+      }
+    };
+
+    const handleWindowBlur = () => {
+      if (start) {
+        sessionStorage.setItem("WL_TIMER", new Date().getTime().toString());
+      }
+    };
+
+    window.addEventListener("focus", handleWindowFocus);
+    window.addEventListener("blur", handleWindowBlur);
+
+    return () => {
+      window.removeEventListener("focus", handleWindowFocus);
+      window.removeEventListener("blur", handleWindowBlur);
+    };
+  });
+
+  useEffect(() => {
     let interval = null;
     if (start) {
       interval = setInterval(() => {
@@ -25,8 +51,10 @@ function Timer() {
           start ? "Stop" : !start && time > 0 ? "Reset" : "Start"
         } timer`}
         onClick={() => {
-          if (start) setStart(false);
-          else if (!start && time > 0) {
+          if (start) {
+            setStart(false);
+            sessionStorage.removeItem("WL_TIMER");
+          } else if (!start && time > 0) {
             setTime(0.0);
           } else {
             setStart(true);

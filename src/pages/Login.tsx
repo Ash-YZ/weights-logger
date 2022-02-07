@@ -35,14 +35,14 @@ function Login() {
             type="text"
             className="p-[10px] mb-[15px]"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value.trim())}
             placeholder="E-mail Address"
           />
           <input
             type="password"
             className="p-[10px] mb-[15px]"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value.trim())}
             placeholder="Password"
           />
           <StandardButton

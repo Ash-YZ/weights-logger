@@ -28,7 +28,7 @@ function Reset() {
             type="text"
             className="p-[10px] mb-[15px]"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value.trim())}
             placeholder="E-mail Address"
           />
           <StandardButton

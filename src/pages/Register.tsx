@@ -36,14 +36,14 @@ function Register() {
             type="text"
             className="p-[10px] mb-[15px]"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value.trim())}
             placeholder="Full name"
           />
           <input
             type="text"
             className="p-[10px] mb-[15px]"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value.trim())}
             placeholder="E-mail address"
             autoComplete="off"
           />
@@ -51,7 +51,7 @@ function Register() {
             type="password"
             className="p-[10px] mb-[15px]"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value.trim())}
             placeholder="Password"
             autoComplete="new-password"
           />

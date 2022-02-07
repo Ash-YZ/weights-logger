@@ -20,7 +20,7 @@ function SetCounter({ repTarget, totalSets, updatePlan, lastRecord }: Props) {
 
   return (
     <div>
-      <div className="flex gap-3 justify-evenly mt-[20px]">
+      <div className="flex gap-3 justify-evenly my-[20px]">
         <div className="text-center text-lg flex flex-col border-2 py-[5px] px-[30px] w-1/3">
           <div>Sets</div>
           <div>
@@ -40,7 +40,7 @@ function SetCounter({ repTarget, totalSets, updatePlan, lastRecord }: Props) {
       </div>
 
       {lastRecord && (
-        <div className="mt-[20px] text-center mb-[20px] font-semibold flex flex-col">
+        <div className="text-center mb-[20px] font-semibold flex flex-col">
           <div className="mb-[10px] text-lg">Reps hit last workout</div>
           <div className="flex justify-center">
             <div className="flex w-full flex-wrap justify-center gap-1">

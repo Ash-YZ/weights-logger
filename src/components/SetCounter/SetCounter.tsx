@@ -34,7 +34,7 @@ function SetCounter({ repTarget, totalSets, updatePlan, lastRecord }: Props) {
         {lastRecord && (
           <div className="text-center text-lg flex flex-col border-2 py-[5px] px-[30px] w-1/3">
             <div>Weight</div>
-            <div>{lastRecord ? lastRecord[setCount].weight : ""}</div>
+            <div>{lastRecord ? lastRecord[setCount - 1].weight : ""}</div>
           </div>
         )}
       </div>

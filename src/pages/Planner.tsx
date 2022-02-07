@@ -143,6 +143,7 @@ function Planner() {
             value={planName}
             name="plan_name"
             onChange={(e) => setTempPlanName(e.target.value)}
+            autoFocus
           />
         </Modal>
       )}

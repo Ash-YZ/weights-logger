@@ -8,6 +8,7 @@ interface Props {
   className?: string;
   label?: string;
   placeholder?: string;
+  autoFocus?: boolean;
 }
 
 function StandardInput({
@@ -18,6 +19,7 @@ function StandardInput({
   className,
   label,
   placeholder,
+  autoFocus,
 }: Props) {
   return (
     <>
@@ -29,6 +31,7 @@ function StandardInput({
         name={name}
         onChange={onChange}
         placeholder={placeholder ?? ""}
+        autoFocus={autoFocus}
       />
     </>
   );

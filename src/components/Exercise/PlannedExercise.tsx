@@ -38,6 +38,7 @@ function PlannedExercise({ addExercise }: Props) {
           placeholder="Exercise"
           value={exercise.name}
           name="exercise_name"
+          autoFocus
           onChange={(e) => setExercise({ ...exercise, name: e.target.value })}
         />
       </div>
@@ -67,7 +68,11 @@ function PlannedExercise({ addExercise }: Props) {
             setExercise(initialState);
           }}
           className="w-full"
-          disabled={!exercise.name && !exercise.sets && !exercise.reps}
+          disabled={
+            !exercise.name.trim().length &&
+            !exercise.sets.trim().length &&
+            !exercise.reps.trim().length
+          }
         />
       </div>
       <div className="w-full border-b-4 border-white my-10" />

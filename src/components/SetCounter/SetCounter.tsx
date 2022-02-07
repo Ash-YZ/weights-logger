@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StandardInput from "../Input/StandardInput";
 import { SetRecord } from "../Exercise/PlannedExercise";
 import StandardButton from "../Button/StandardButton";
@@ -8,15 +8,31 @@ interface Props {
   totalSets: number; // 1 based
   updatePlan: (records: Array<SetRecord>) => void;
   lastRecord?: Array<SetRecord>;
+  selectedExercise: number;
 }
 
-function SetCounter({ repTarget, totalSets, updatePlan, lastRecord }: Props) {
+function SetCounter({
+  repTarget,
+  totalSets,
+  updatePlan,
+  lastRecord,
+  selectedExercise,
+}: Props) {
   const [setCount, setSetCount] = useState(1);
   const [setRecords, setSetRecords] = useState<Array<SetRecord>>([]);
   const [thisSetRecord, setThisSetRecord] = useState<SetRecord>({
     weight: "",
     reps: "",
   });
+
+  useEffect(() => {
+    setSetCount(1);
+    setThisSetRecord({
+      weight: "",
+      reps: "",
+    });
+    setSetRecords([]);
+  }, [selectedExercise]);
 
   return (
     <div>
@@ -43,7 +59,7 @@ function SetCounter({ repTarget, totalSets, updatePlan, lastRecord }: Props) {
             }}
           >
             <div>Weight</div>
-            <div>{lastRecord ? lastRecord[setCount - 1].weight : ""}</div>
+            <div>{lastRecord ? lastRecord[setCount - 1]?.weight : ""}</div>
           </button>
         )}
       </div>

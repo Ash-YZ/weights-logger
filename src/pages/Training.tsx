@@ -67,6 +67,7 @@ function Training() {
       {selectedExercise > -1 ? (
         <div className="mt-[20px]">
           <SetCounter
+            selectedExercise={selectedExercise}
             repTarget={exercises[selectedExercise]?.reps}
             totalSets={parseInt(exercises[selectedExercise].sets, 10)}
             updatePlan={updatePlan}

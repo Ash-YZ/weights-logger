@@ -48,20 +48,23 @@ function History() {
           <div className="max-w-[100%] overflow-x-scroll relative">
             <table className="w-full divide-y divide-gray-200 text-lg text-sm text-left border-[1px] max-w-[150px] fixed bg-gray-600 mb-[30px]">
               <tbody>
-                <tr>
-                  <td className="italic text-[10px] max-w-[10px] border-r-[1px] border-r-[1px] text-center h-[23px]" />
+                <tr className="h-[25px]">
+                  <td className="italic text-[10px] max-w-[10px] border-r-[1px] border-r-[1px] text-center" />
                 </tr>
                 {exercises?.map((exercise) => {
                   return (
                     <React.Fragment key={exercise.name + Math.random() * 10}>
-                      <tr className="border-y-[1px]">
+                      <tr className="border-y-[1px] h-[25px]">
                         <th className="py-[4px] w-[150px] overflow-hidden border-r-[1px] min-w-[150px]">
                           {exercise.name}
                         </th>
                       </tr>
                       {exercise.records?.map((record) => {
                         return (
-                          <tr key={record.date + Math.random() * 10}>
+                          <tr
+                            className="h-[25px]"
+                            key={record.date + Math.random() * 10}
+                          >
                             <td className="w-[150px] border-r-[1px]">
                               {record.date}
                             </td>
@@ -76,7 +79,7 @@ function History() {
 
             <table className="w-full divide-y divide-gray-200 text-lg text-sm text-left border-[1px] mb-[30px]">
               <tbody>
-                <tr>
+                <tr className="h-[25px]">
                   <td className="italic text-[10px] max-w-[10px] border-r-[1px] border-r-[1px] text-center" />
                   {new Array(maxCols).fill("").map((_, i) => {
                     return (
@@ -93,7 +96,7 @@ function History() {
                 {exercises?.map((exercise, idx) => {
                   return (
                     <React.Fragment key={exercise.name + Math.random() * 10}>
-                      <tr className="border-y-[1px]">
+                      <tr className="border-y-[1px] h-[25px]">
                         <th className="py-[4px] w-[150px] overflow-hidden border-r-[1px] min-w-[150px]">
                           {exercise.name}
                         </th>
@@ -114,7 +117,10 @@ function History() {
                       </tr>
                       {exercise.records?.map((record) => {
                         return (
-                          <tr key={record.date + Math.random() * 10}>
+                          <tr
+                            className="h-[25px]"
+                            key={record.date + Math.random() * 10}
+                          >
                             <td className="w-[150px] border-r-[1px]">
                               {record.date}
                             </td>

@@ -5,6 +5,31 @@ function Timer() {
   const [time, setTime] = useState(0.0);
   const [start, setStart] = useState(false);
 
+  // function isScreenLockSupported() {
+  //   return "wakeLock" in navigator;
+  // }
+  //
+  // async function getScreenLock() {
+  //   if (isScreenLockSupported()) {
+  //     let screenLock;
+  //     try {
+  //       screenLock = await navigator.wakeLock.request("screen");
+  //     } catch (err) {
+  //       console.log(err.name, err.message);
+  //     }
+  //     return screenLock;
+  //   }
+  // }
+  //
+  // function release(screenLock) {
+  //   if (typeof screenLock !== "undeinfed" && screenLock != null) {
+  //     screenLock.release().then(() => {
+  //       console.log("Lock released 🎈");
+  //       screenLock = null;
+  //     });
+  //   }
+  // }
+
   useEffect(() => {
     const handleWindowFocus = () => {
       if (start) {

@@ -4,31 +4,30 @@ import StandardButton from "../Button/StandardButton";
 function Timer() {
   const [time, setTime] = useState(0.0);
   const [start, setStart] = useState(false);
+  const [screenLock, setScreenLock] = useState<any>();
 
-  // function isScreenLockSupported() {
-  //   return "wakeLock" in navigator;
-  // }
-  //
-  // async function getScreenLock() {
-  //   if (isScreenLockSupported()) {
-  //     let screenLock;
-  //     try {
-  //       screenLock = await navigator.wakeLock.request("screen");
-  //     } catch (err) {
-  //       console.log(err.name, err.message);
-  //     }
-  //     return screenLock;
-  //   }
-  // }
-  //
-  // function release(screenLock) {
-  //   if (typeof screenLock !== "undeinfed" && screenLock != null) {
-  //     screenLock.release().then(() => {
-  //       console.log("Lock released 🎈");
-  //       screenLock = null;
-  //     });
-  //   }
-  // }
+  function isScreenLockSupported() {
+    return "wakeLock" in navigator;
+  }
+
+  async function lockScreen() {
+    if (isScreenLockSupported()) {
+      try {
+        const lock = await (navigator as any).wakeLock.request("screen");
+        setScreenLock(lock);
+      } catch (err) {
+        console.log(err.name, err.message);
+      }
+    }
+  }
+
+  function releaseScreen() {
+    if (screenLock && screenLock.release) {
+      screenLock.release().then(() => {
+        setScreenLock(null);
+      });
+    }
+  }
 
   useEffect(() => {
     const handleWindowFocus = () => {
@@ -78,10 +77,12 @@ function Timer() {
         onClick={() => {
           if (start) {
             setStart(false);
+            releaseScreen();
             sessionStorage.removeItem("WL_TIMER");
           } else if (!start && time > 0) {
             setTime(0.0);
           } else {
+            lockScreen();
             setStart(true);
           }
         }}

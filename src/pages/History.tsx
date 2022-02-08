@@ -42,74 +42,109 @@ function History() {
           <Loader />
         </div>
       ) : (
-        <div className="text-center">
+        <div className="text-center relative">
           <h2 className="my-[20px] text-2xl font-semibold">{planName}</h2>
 
-          <table className="w-full divide-y divide-gray-200 text-lg text-sm text-left border-[1px]">
-            <tbody>
-              <tr>
-                <td className="italic text-[10px] max-w-[10px] border-r-[1px] border-r-[1px] text-center" />
-                {new Array(maxCols).fill("").map((_, i) => {
+          <div className="max-w-[100%] overflow-x-scroll relative">
+            <table className="w-full divide-y divide-gray-200 text-lg text-sm text-left border-[1px] max-w-[150px] fixed bg-gray-600 mb-[30px]">
+              <tbody>
+                <tr>
+                  <td className="italic text-[10px] max-w-[10px] border-r-[1px] border-r-[1px] text-center h-[23px]" />
+                </tr>
+                {exercises?.map((exercise) => {
                   return (
-                    <td
-                      colSpan={2}
-                      className="italic text-[10px] max-w-[10px] border-r-[1px] border-r-[1px] text-center"
-                    >
-                      {`${i + 1}`}
-                    </td>
-                  );
-                })}
-              </tr>
-              {exercises?.map((exercise, idx) => {
-                return (
-                  <>
-                    <tr className="border-y-[1px]">
-                      <th className="py-[4px] w-[150px] overflow-hidden border-r-[1px]">
-                        {exercise.name}
-                      </th>
-                      {new Array(maxCols).fill("").map(() => {
+                    <React.Fragment key={exercise.name + Math.random() * 10}>
+                      <tr className="border-y-[1px]">
+                        <th className="py-[4px] w-[150px] overflow-hidden border-r-[1px] min-w-[150px]">
+                          {exercise.name}
+                        </th>
+                      </tr>
+                      {exercise.records?.map((record) => {
                         return (
-                          <>
-                            <td className="italic text-[10px] max-w-[10px] text-center ">
-                              {`${idx === 0 ? "W" : ""}`}
+                          <tr key={record.date + Math.random() * 10}>
+                            <td className="w-[150px] border-r-[1px]">
+                              {record.date}
                             </td>
-                            <td className="italic text-[10px] max-w-[10px] border-r-[1px] border-r-[1px] text-center">
-                              {`${idx === 0 ? "R" : ""}`}
-                            </td>
-                          </>
+                          </tr>
                         );
                       })}
-                    </tr>
-                    {exercise.records?.map((record) => {
-                      return (
-                        <tr key={record.date + Math.random() * 10}>
-                          <td className="w-[150px] border-r-[1px]">
-                            {record.date}
-                          </td>
-                          {new Array(maxCols).fill("").map((_, ind) => {
-                            const sr = record.setRecord[ind] ?? {
-                              weight: "",
-                              reps: "",
-                            };
-                            return (
-                              <>
-                                <td className="max-w-[10px] text-center border-r border-dotted border-gray-300">
-                                  {sr.weight}
-                                </td>
-                                <td className="max-w-[10px] border-r-[1px] text-center">
-                                  {sr.reps}
-                                </td>
-                              </>
-                            );
-                          })}
-                        </tr>
-                      );
-                    })}
-                  </>
-                );
-              })}
-            </tbody>
-          </table>
+                    </React.Fragment>
+                  );
+                })}
+              </tbody>
+            </table>
+
+            <table className="w-full divide-y divide-gray-200 text-lg text-sm text-left border-[1px] mb-[30px]">
+              <tbody>
+                <tr>
+                  <td className="italic text-[10px] max-w-[10px] border-r-[1px] border-r-[1px] text-center" />
+                  {new Array(maxCols).fill("").map((_, i) => {
+                    return (
+                      <td
+                        key={Math.random() * 10}
+                        colSpan={2}
+                        className="italic text-[10px] max-w-[10px] border-r-[1px] border-r-[1px] text-center"
+                      >
+                        Set {`${i + 1}`}
+                      </td>
+                    );
+                  })}
+                </tr>
+                {exercises?.map((exercise, idx) => {
+                  return (
+                    <React.Fragment key={exercise.name + Math.random() * 10}>
+                      <tr className="border-y-[1px]">
+                        <th className="py-[4px] w-[150px] overflow-hidden border-r-[1px] min-w-[150px]">
+                          {exercise.name}
+                        </th>
+                        {new Array(maxCols).fill("").map(() => {
+                          return (
+                            <React.Fragment
+                              key={exercise.name + Math.random() * 10}
+                            >
+                              <td className="italic text-[10px] max-w-[10px] text-center ">
+                                {`${idx === 0 ? "W" : ""}`}
+                              </td>
+                              <td className="italic text-[10px] max-w-[10px] border-r-[1px] border-r-[1px] text-center">
+                                {`${idx === 0 ? "R" : ""}`}
+                              </td>
+                            </React.Fragment>
+                          );
+                        })}
+                      </tr>
+                      {exercise.records?.map((record) => {
+                        return (
+                          <tr key={record.date + Math.random() * 10}>
+                            <td className="w-[150px] border-r-[1px]">
+                              {record.date}
+                            </td>
+                            {new Array(maxCols).fill("").map((_, ind) => {
+                              const sr = record.setRecord[ind] ?? {
+                                weight: "",
+                                reps: "",
+                              };
+                              return (
+                                <React.Fragment
+                                  key={exercise.name + Math.random() * 10}
+                                >
+                                  <td className="min-w-[30px] text-center border-r border-dotted border-gray-300">
+                                    {sr.weight}
+                                  </td>
+                                  <td className="min-w-[30px] border-r-[1px] text-center">
+                                    {sr.reps}
+                                  </td>
+                                </React.Fragment>
+                              );
+                            })}
+                          </tr>
+                        );
+                      })}
+                    </React.Fragment>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>

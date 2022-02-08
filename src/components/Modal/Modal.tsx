@@ -30,7 +30,10 @@ const Modal: React.FC<Props> = ({
           <div className="mt-3 text-center">
             <h3 className="text-lg text-white">{title}</h3>
             <div className="mt-2 px-7 py-3">
-              <p className="text-sm text-white">{description}</p>
+              <p
+                className="text-sm text-white"
+                dangerouslySetInnerHTML={{ __html: description }}
+              />
             </div>
             {children}
             <div className="items-center px-4 py-3 flex gap-2">

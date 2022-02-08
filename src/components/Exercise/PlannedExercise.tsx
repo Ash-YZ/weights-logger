@@ -40,6 +40,7 @@ function PlannedExercise({ addExercise }: Props) {
           name="exercise_name"
           autoFocus
           onChange={(e) => setExercise({ ...exercise, name: e.target.value })}
+          className="w-full"
         />
       </div>
       <div className="my-3 flex gap-5 items-center w-full">

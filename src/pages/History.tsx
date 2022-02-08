@@ -153,18 +153,24 @@ function History() {
               </tbody>
             </table>
           </div>
-          <Link
-            to="/planner"
-            state={{ planId }}
-            className="text-[15px] w-full inline-block mt-[20px]"
-          >
-            <StandardButton
-              label="Back to planner"
-              onClick={() => {}}
-              className="w-full"
-              disabled={!planId}
-            />
-          </Link>
+          <div className="flex flex-col gap-3">
+            <Link to="/planner" state={{ planId }} className="text-[15px]">
+              <StandardButton
+                label="Go to planner"
+                onClick={() => {}}
+                className="w-full"
+                disabled={!planId}
+              />
+            </Link>
+            <Link to="/dashboard" state={{ planId }} className="text-[15px]">
+              <StandardButton
+                label="Go to dashboard"
+                onClick={() => {}}
+                className="w-full"
+                disabled={!planId}
+              />
+            </Link>
+          </div>
         </div>
       )}
     </div>

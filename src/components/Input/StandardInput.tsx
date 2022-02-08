@@ -25,7 +25,7 @@ function StandardInput({
 }: Props) {
   return (
     <div
-      className={`flex flex-row items-center gap-2 ${
+      className={`flex flex-row items-center gap-2 w-full ${
         isStacked ? "flex-col align-middle" : ""
       }`}
     >

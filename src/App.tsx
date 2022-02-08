@@ -8,6 +8,7 @@ import Reset from "./pages/Reset";
 import Dashboard from "./pages/Dashboard";
 import Training from "./pages/Training";
 import History from "./pages/History";
+import Archive from "./pages/Archive";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/planner" element={<Planner />} />
           <Route path="/training" element={<Training />} />
           <Route path="/history" element={<History />} />
+          <Route path="/archive" element={<Archive />} />
         </Routes>
       </Router>
     </div>

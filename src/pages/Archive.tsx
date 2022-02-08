@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
-import { onValue, ref, update } from "firebase/database";
-import { MdOutlineNotStarted } from "react-icons/md";
-import { BiArchiveIn } from "react-icons/bi";
-import { BsGraphUp } from "react-icons/bs";
+import { onValue, ref, remove, update } from "firebase/database";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import { BiArchiveOut } from "react-icons/bi";
 
 import { auth, db } from "../firebase/firebase";
 import StandardButton from "../components/Button/StandardButton";
@@ -15,7 +14,7 @@ function Dashboard() {
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   const [plans, setPlans] = useState<any>();
-  const [planToArchive, setPlanToArchive] = useState<string | null>();
+  const [planToDelete, setPlanToDelete] = useState<string | null>();
 
   useEffect(() => {
     if (loading) return;
@@ -28,15 +27,20 @@ function Dashboard() {
     const plansRef = ref(db, `plans/`);
     onValue(plansRef, (snapshot) => {
       const savedPlans = snapshot.val();
-      const notArchived = objectFilter(savedPlans, (plan) => !plan.archived);
+      const notArchived = objectFilter(savedPlans, (plan) => plan.archived);
       setPlans(notArchived);
     });
   }, []);
 
-  const archivePlan = (planId) => {
-    setPlanToArchive(null);
+  const unArchivePlan = (planId) => {
     const planRef = ref(db, `plans/${planId}`);
-    update(planRef, { archived: true });
+    update(planRef, { archived: false });
+  };
+
+  const deletePlan = (planId) => {
+    setPlanToDelete(null);
+    const planRef = ref(db, `plans/${planId}`);
+    remove(planRef);
   };
 
   const getPlansList = () => {
@@ -55,23 +59,15 @@ function Dashboard() {
               </Link>
             </td>
             <td className="flex py-[10px] px-3 items-center justify-end text-gray-700">
-              <Link to="/history" state={{ planId: key }}>
-                <div className="scale-[125%]">
-                  <BsGraphUp />
-                </div>
-              </Link>
-            </td>
-            <td className="flex py-[10px] px-3 items-center justify-end text-gray-700">
-              <Link to="/training" state={{ planId: key }}>
-                <div className="scale-[165%]">
-                  <MdOutlineNotStarted />
-                </div>
-              </Link>
-            </td>
-            <td className="flex py-[10px] px-3 items-center justify-end text-gray-700">
-              <BiArchiveIn
+              <BiArchiveOut
                 className="cursor-pointer min-w-[22px] min-h-[22px]"
-                onClick={() => setPlanToArchive(key)}
+                onClick={() => unArchivePlan(key)}
+              />
+            </td>
+            <td className="flex py-[10px] px-3 items-center justify-end text-gray-700">
+              <AiOutlineCloseCircle
+                className="cursor-pointer min-w-[22px] min-h-[22px]"
+                onClick={() => setPlanToDelete(key)}
               />
             </td>
           </tr>
@@ -79,8 +75,8 @@ function Dashboard() {
       });
     } else {
       ret.push(
-        <tr key="no_saved_plans">
-          <td className="p-[10px]">No saved plans</td>
+        <tr key="no_archived_plans">
+          <td className="p-[10px]">No archived plans</td>
         </tr>
       );
     }
@@ -97,11 +93,11 @@ function Dashboard() {
       ) : (
         <div className="flex flex-col p-[15px]">
           <div className="mb-[30px]">
-            <h1 className="text-2xl font-semibold mb-[30px]">Welcome back!</h1>
+            <h1 className="text-2xl font-semibold mb-[30px]">Archive</h1>
             {plans && (
               <>
-                <h1 className="text-[15px] mb-[10px] text-[18px]">
-                  Saved plans:
+                <h1 className="text-[15px] mb-[10px] text-[16px]">
+                  Archived plans:
                 </h1>
                 <table className="w-full divide-y divide-gray-200 text-lg text-gray-700">
                   <tbody className="bg-gray-200 divide-y divide-gray-300 text-sm tracking-wider">
@@ -112,24 +108,21 @@ function Dashboard() {
             )}
           </div>
           <div>
-            <Link to="/planner">
-              <StandardButton label="Create a new plan" onClick={() => {}} />
+            <Link to="/dashboard">
+              <StandardButton label="Back to dashboard" onClick={() => {}} />
             </Link>
-          </div>
-          <div className="text-sm mt-[25px] underline cursor-pointer text-blue-200">
-            <Link to="/archive">View Archived plans</Link>
           </div>
         </div>
       )}
 
-      {planToArchive && (
+      {planToDelete && (
         <Modal
-          title="Archive plan"
-          description="Do you want to archive this plan?<br/>Plans can be restored from the Archive."
+          title="Delete plan"
+          description="Are you sure you want to delete this plan?<br/>Associated exercise data will also be deleted."
           closeButtonLabel="Cancel"
-          onClose={() => setPlanToArchive(null)}
+          onClose={() => setPlanToDelete(null)}
           saveButtonLabel="Confirm"
-          onSave={() => archivePlan(planToArchive)}
+          onSave={() => deletePlan(planToDelete)}
         />
       )}
     </div>

@@ -26,6 +26,7 @@ module.exports = {
     "react/require-default-props": [0],
     "jsx-a11y/no-autofocus": [0],
     "no-nested-ternary": [0],
+    "import/prefer-default-export": [0],
     "react/jsx-filename-extension": [
       1,
       {

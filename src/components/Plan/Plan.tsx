@@ -1,5 +1,6 @@
 import React from "react";
 import { CgRemove } from "react-icons/cg";
+
 import { Exercise } from "../Exercise/PlannedExercise";
 import Loader from "../Loader/Loader";
 
@@ -11,7 +12,7 @@ interface Props {
 
 function Plan({ exercises, remove, isPlanLoading }: Props) {
   return (
-    <table className="w-full divide-y divide-gray-200 text-lg">
+    <table className="w-full divide-y divide-gray-200 ">
       <thead className="bg-gray-50">
         <tr>
           <th

@@ -104,7 +104,8 @@ function SetCounter({
           onChange={(e) => {
             setThisSetRecord({ ...thisSetRecord, weight: e.target.value });
           }}
-          className="w-[50%] text-center"
+          className="w-[100%] text-center"
+          isStacked
         />
 
         <StandardInput
@@ -115,7 +116,8 @@ function SetCounter({
           onChange={(e) => {
             setThisSetRecord({ ...thisSetRecord, reps: e.target.value });
           }}
-          className="w-[50%] text-center"
+          className="w-[100%] text-center"
+          isStacked
         />
       </div>
 

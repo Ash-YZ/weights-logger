@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 import Modal from "../Modal/Modal";
 
 interface Props {
@@ -47,14 +48,23 @@ function Dropdown({
 
       {isOptionsVisible && (
         <div className="absolute w-screen h-screen bg-gray-500 z-10 top-0 left-0 pt-[80px] text-xl">
+          <button
+            type="button"
+            className="w-full border-b-2 border-gray-700 py-[20px] flex justify-center"
+            onClick={() => {
+              setIsOptionsVisible(false);
+            }}
+          >
+            <div className="scale-150 ">
+              <AiOutlineCloseCircle />
+            </div>
+          </button>
           {options.map((option, index) => {
             return (
               <button
                 key={option + Math.random() * 10}
                 type="button"
-                className={`w-full border-b-2 border-gray-700 capitalize py-[10px] ${
-                  index === 0 ? "border-t-2" : ""
-                }`}
+                className="w-full border-b-2 border-gray-700 capitalize py-[10px]"
                 onClick={() => {
                   setIsOptionsVisible(false);
                   setSelectedOption(option);

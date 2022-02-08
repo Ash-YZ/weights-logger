@@ -9,6 +9,7 @@ interface Props {
   label?: string;
   placeholder?: string;
   autoFocus?: boolean;
+  isStacked?: boolean;
 }
 
 function StandardInput({
@@ -20,9 +21,14 @@ function StandardInput({
   label,
   placeholder,
   autoFocus,
+  isStacked,
 }: Props) {
   return (
-    <>
+    <div
+      className={`flex flex-row items-center gap-2 ${
+        isStacked ? "flex-col align-middle" : ""
+      }`}
+    >
       {label && <h3 className="text-xl">{label}</h3>}
       <input
         value={value}
@@ -33,7 +39,7 @@ function StandardInput({
         placeholder={placeholder ?? ""}
         autoFocus={autoFocus}
       />
-    </>
+    </div>
   );
 }
 

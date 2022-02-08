@@ -47,6 +47,19 @@ function History() {
 
           <table className="w-full divide-y divide-gray-200 text-lg text-sm text-left border-[1px]">
             <tbody>
+              <tr>
+                <td className="italic text-[10px] max-w-[10px] border-r-[1px] border-r-[1px] text-center" />
+                {new Array(maxCols).fill("").map((_, i) => {
+                  return (
+                    <td
+                      colSpan={2}
+                      className="italic text-[10px] max-w-[10px] border-r-[1px] border-r-[1px] text-center"
+                    >
+                      {`${i + 1}`}
+                    </td>
+                  );
+                })}
+              </tr>
               {exercises?.map((exercise, idx) => {
                 return (
                   <>
@@ -57,8 +70,8 @@ function History() {
                       {new Array(maxCols).fill("").map(() => {
                         return (
                           <>
-                            <td className="italic text-[10px] max-w-[10px] text-center">
-                              {`${idx === 0 ? "S" : ""}`}
+                            <td className="italic text-[10px] max-w-[10px] text-center ">
+                              {`${idx === 0 ? "W" : ""}`}
                             </td>
                             <td className="italic text-[10px] max-w-[10px] border-r-[1px] border-r-[1px] text-center">
                               {`${idx === 0 ? "R" : ""}`}
@@ -80,7 +93,7 @@ function History() {
                             };
                             return (
                               <>
-                                <td className="max-w-[10px] text-center">
+                                <td className="max-w-[10px] text-center border-r border-dotted border-gray-300">
                                   {sr.weight}
                                 </td>
                                 <td className="max-w-[10px] border-r-[1px] text-center">

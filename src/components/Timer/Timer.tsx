@@ -65,7 +65,7 @@ function Timer() {
             ? "bg-red-600 hover:bg-red-600"
             : !start && time > 0
             ? "bg-gray-600 hover:bg-gray-600"
-            : "bg-blue-600 hover:bg-blue-600"
+            : "bg-blue-600 hover:bg-blue-500"
         } border-2 h-[60px] text-center justify-center items-center`}
       />
 

@@ -43,10 +43,19 @@ function SetCounter({
             {setCount} / {totalSets}
           </div>
         </div>
-        <div className="text-center text-lg flex flex-col border-2 py-[5px] px-[30px] w-1/3">
+        <button
+          type="button"
+          onClick={() => {
+            setThisSetRecord({
+              ...thisSetRecord,
+              reps: repTarget,
+            });
+          }}
+          className="flex flex-col items-center text-lg flex flex-col border-2 py-[5px] px-[30px] w-1/3"
+        >
           <div>Reps</div>
           <div>{repTarget}</div>
-        </div>
+        </button>
         {lastRecord && (
           <button
             type="button"
@@ -73,8 +82,8 @@ function SetCounter({
                 return (
                   <div
                     key={Math.random() * 10}
-                    className={`flex flex-col items-center justify-center px-[9px] py-[3px] w-fit border-2 border-white ${
-                      setCount - 1 === idx ? "bg-blue-500" : ""
+                    className={`flex flex-col items-center justify-center px-[9px] py-[3px] w-fit border-[4px] border-white ${
+                      setCount - 1 === idx ? "border-blue-500" : ""
                     }`}
                   >
                     <div className="text-sm">Set {idx + 1}</div>
@@ -111,7 +120,7 @@ function SetCounter({
       </div>
 
       <StandardButton
-        label={`${setCount > totalSets - 1 ? "Complete Set" : "Next Set"}`}
+        label={`${setCount > totalSets - 1 ? "Done" : "Next Set"}`}
         onClick={() => {
           if (setCount === totalSets) {
             setSetCount(0);

@@ -1,26 +1,29 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { onValue, ref } from "firebase/database";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { db } from "../firebase/firebase";
 import { Exercise } from "../components/Exercise/PlannedExercise";
 import Loader from "../components/Loader/Loader";
+import StandardButton from "../components/Button/StandardButton";
 
 function History() {
   const [isHistoryLoading, setIsHistoryLoading] = useState(false);
   const [planName, setPlanName] = useState<string>();
   const [exercises, setExercises] = useState<Array<Exercise>>([]);
   const location = useLocation();
+  const [planId, setPlanId] = useState<string>();
 
   useEffect(() => {
     if (location.state) {
       setIsHistoryLoading(true);
-      const { planId } = location.state as any;
-      const exercisesRef = ref(db, `plans/${planId}`);
+      const { planId: statePlanId } = location.state as any;
+      const exercisesRef = ref(db, `plans/${statePlanId}`);
       onValue(exercisesRef, (snapshot) => {
         const plan = snapshot.val();
         setPlanName(plan.name);
         setExercises(plan.exercises);
         setIsHistoryLoading(false);
+        setPlanId(statePlanId);
       });
     }
   }, []);
@@ -44,7 +47,6 @@ function History() {
       ) : (
         <div className="text-center relative">
           <h2 className="my-[20px] text-2xl font-semibold">{planName}</h2>
-
           <div className="max-w-[100%] overflow-x-scroll relative">
             <table className="w-full divide-y divide-gray-200 text-lg text-sm text-left border-[1px] max-w-[150px] fixed bg-gray-600 mb-[30px]">
               <tbody>
@@ -151,6 +153,18 @@ function History() {
               </tbody>
             </table>
           </div>
+          <Link
+            to="/planner"
+            state={{ planId }}
+            className="text-[15px] w-full inline-block mt-[20px]"
+          >
+            <StandardButton
+              label="Back to planner"
+              onClick={() => {}}
+              className="w-full"
+              disabled={!planId}
+            />
+          </Link>
         </div>
       )}
     </div>

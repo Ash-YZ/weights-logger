@@ -34,7 +34,6 @@ function SetCounter({
     setSetRecords([]);
   }, [selectedExercise]);
 
-  useEffect(() => console.log(setRecords), [setRecords]);
   return (
     <div>
       <div className="flex gap-3 justify-evenly my-[20px]">

@@ -39,16 +39,16 @@ function History() {
   }, [exercises]);
 
   return (
-    <div className="w-full relative">
+    <div className="w-full">
       {isHistoryLoading ? (
         <div className="flex justify-center items-center p-[40px]">
           <Loader />
         </div>
       ) : (
-        <div className="text-center relative">
+        <div className="text-center">
           <h2 className="my-[20px] text-2xl font-semibold">{planName}</h2>
-          <div className="max-w-[100%] overflow-x-scroll relative">
-            <table className="w-full divide-y divide-gray-200 text-lg text-sm text-left border-[1px] max-w-[150px] fixed bg-gray-600 mb-[30px]">
+          <div className="max-w-[100%] overflow-x-scroll ">
+            <table className="w-full text-sm text-left border-[1px] max-w-[150px] absolute bg-gray-600 mb-[30px]">
               <tbody>
                 <tr className="h-[25px]">
                   <td className="italic text-[10px] max-w-[10px] border-r-[1px] border-r-[1px] text-center" />
@@ -79,7 +79,7 @@ function History() {
               </tbody>
             </table>
 
-            <table className="w-full divide-y divide-gray-200 text-lg text-sm text-left border-[1px] mb-[30px]">
+            <table className="w-full text-sm text-left border-[1px] mb-[30px]">
               <tbody>
                 <tr className="h-[25px]">
                   <td className="italic text-[10px] max-w-[10px] border-r-[1px] border-r-[1px] text-center" />

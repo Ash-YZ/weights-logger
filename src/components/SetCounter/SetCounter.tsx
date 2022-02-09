@@ -34,6 +34,7 @@ function SetCounter({
     setSetRecords([]);
   }, [selectedExercise]);
 
+  useEffect(() => console.log(setRecords), [setRecords]);
   return (
     <div>
       <div className="flex gap-3 justify-evenly my-[20px]">
@@ -56,19 +57,25 @@ function SetCounter({
           <div>Reps</div>
           <div>{repTarget}</div>
         </button>
-        {lastRecord && (
+        {(lastRecord || setRecords.length > 0) && (
           <button
             type="button"
             className="text-center text-lg flex flex-col border-2 py-[5px] px-[30px] w-1/3 cursor-pointer items-center bg-blue-500"
             onClick={() => {
               setThisSetRecord({
                 ...thisSetRecord,
-                weight: lastRecord[setCount - 1].weight,
+                weight: lastRecord
+                  ? lastRecord[setCount - 1].weight
+                  : setRecords[setCount - 2].weight,
               });
             }}
           >
             <div>Weight</div>
-            <div>{lastRecord ? lastRecord[setCount - 1]?.weight : ""}</div>
+            <div>
+              {lastRecord
+                ? lastRecord[setCount - 1]?.weight
+                : setRecords[setCount - 2].weight ?? ""}
+            </div>
           </button>
         )}
       </div>

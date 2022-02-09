@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { onValue, ref, set } from "firebase/database";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Exercise } from "../components/Exercise/PlannedExercise";
 import { auth, db } from "../firebase/firebase";
 import Dropdown from "../components/Dropdown/Dropdown";
 import SetCounter from "../components/SetCounter/SetCounter";
 import Timer from "../components/Timer/Timer";
+import StandardButton from "../components/Button/StandardButton";
 
 function Training() {
   const location = useLocation();
@@ -92,6 +93,17 @@ function Training() {
         <div className="w-full mt-[20px] flex justify-center">
           <Timer />
         </div>
+      )}
+
+      {selectedExercise === -1 && (
+        <Link to="/dashboard">
+          <StandardButton
+            label="Return to dashboard"
+            onClick={() => {}}
+            className="w-full mt-[30px]"
+            type="secondary"
+          />
+        </Link>
       )}
     </>
   );

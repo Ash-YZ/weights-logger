@@ -15,6 +15,7 @@ export interface Exercise {
   name: string;
   reps: string;
   sets: string;
+  notes?: string;
   records: Array<ExerciseRecord>;
 }
 
@@ -61,6 +62,16 @@ function PlannedExercise({ addExercise }: Props) {
           onChange={(e) => setExercise({ ...exercise, reps: e.target.value })}
         />
       </div>
+      <div className="my-3 flex gap-5 items-center w-full">
+        <textarea
+          rows={3}
+          placeholder="Notes"
+          value={exercise.notes}
+          name="exercise_notes"
+          className="w-full py-2 px-3 text-black"
+          onChange={(e) => setExercise({ ...exercise, notes: e.target.value })}
+        />
+      </div>
       <div className="my-3 flex mt-5 items-center w-full justify-end">
         <StandardButton
           label="Add to plan"
@@ -70,8 +81,8 @@ function PlannedExercise({ addExercise }: Props) {
           }}
           className="w-full"
           disabled={
-            !exercise.name.trim().length &&
-            !exercise.sets.trim().length &&
+            !exercise.name.trim().length ||
+            !exercise.sets.trim().length ||
             !exercise.reps.trim().length
           }
         />

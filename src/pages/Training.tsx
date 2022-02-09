@@ -79,6 +79,7 @@ function Training() {
             repTarget={exercises[selectedExercise]?.reps}
             totalSets={parseInt(exercises[selectedExercise].sets, 10)}
             updatePlan={updatePlan}
+            notes={exercises[selectedExercise].notes}
             lastRecord={
               exercises[selectedExercise].records
                 ? exercises[selectedExercise].records.slice(-1)[0].setRecord

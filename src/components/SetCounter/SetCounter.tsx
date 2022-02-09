@@ -7,6 +7,7 @@ interface Props {
   repTarget: string;
   totalSets: number; // 1 based
   updatePlan: (records: Array<SetRecord>) => void;
+  notes?: string;
   lastRecord?: Array<SetRecord>;
   selectedExercise: number;
 }
@@ -15,6 +16,7 @@ function SetCounter({
   repTarget,
   totalSets,
   updatePlan,
+  notes,
   lastRecord,
   selectedExercise,
 }: Props) {
@@ -126,7 +128,12 @@ function SetCounter({
           isStacked
         />
       </div>
-
+      {notes && (
+        <div className="flex text-sm italic gap-2 border-2 px-3 py-2 w-full mt-[20px]">
+          <div className="font-semibold">Exercise notes:</div>
+          <div className="text-justify">{notes}</div>
+        </div>
+      )}
       <StandardButton
         label={`${setCount > totalSets - 1 ? "Done" : "Next Set"}`}
         onClick={() => {

@@ -24,22 +24,24 @@ function Dashboard() {
   }, [user, loading]);
 
   useEffect(() => {
-    const plansRef = ref(db, `plans/`);
-    onValue(plansRef, (snapshot) => {
-      const savedPlans = snapshot.val();
-      const notArchived = objectFilter(savedPlans, (plan) => plan.archived);
-      setPlans(notArchived);
-    });
-  }, []);
+    if (user) {
+      const plansRef = ref(db, `${user.uid}/plans/`);
+      onValue(plansRef, (snapshot) => {
+        const savedPlans = snapshot.val();
+        const notArchived = objectFilter(savedPlans, (plan) => plan.archived);
+        setPlans(notArchived);
+      });
+    }
+  }, [loading]);
 
   const unArchivePlan = (planId) => {
-    const planRef = ref(db, `plans/${planId}`);
+    const planRef = ref(db, `${user.uid}/plans/${planId}`);
     update(planRef, { archived: false });
   };
 
   const deletePlan = (planId) => {
     setPlanToDelete(null);
-    const planRef = ref(db, `plans/${planId}`);
+    const planRef = ref(db, `${user.uid}/plans/${planId}`);
     remove(planRef);
   };
 

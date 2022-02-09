@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { onValue, ref } from "firebase/database";
 import { Link, useLocation } from "react-router-dom";
-import { db } from "../firebase/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, db } from "../firebase/firebase";
 import { Exercise } from "../components/Exercise/PlannedExercise";
 import Loader from "../components/Loader/Loader";
 import StandardButton from "../components/Button/StandardButton";
@@ -12,12 +13,13 @@ function History() {
   const [exercises, setExercises] = useState<Array<Exercise>>([]);
   const location = useLocation();
   const [planId, setPlanId] = useState<string>();
+  const [user, loading] = useAuthState(auth);
 
   useEffect(() => {
-    if (location.state) {
+    if (user && location.state) {
       setIsHistoryLoading(true);
       const { planId: statePlanId } = location.state as any;
-      const exercisesRef = ref(db, `plans/${statePlanId}`);
+      const exercisesRef = ref(db, `${user.uid}/plans/${statePlanId}`);
       onValue(exercisesRef, (snapshot) => {
         const plan = snapshot.val();
         setPlanName(plan.name);
@@ -26,7 +28,7 @@ function History() {
         setPlanId(statePlanId);
       });
     }
-  }, []);
+  }, [loading]);
 
   const maxCols = useMemo(() => {
     const allLengths = [];

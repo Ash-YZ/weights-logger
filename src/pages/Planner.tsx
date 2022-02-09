@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { onValue, push, ref, set } from "firebase/database";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
+import { useAuthState } from "react-firebase-hooks/auth";
 import Plan from "../components/Plan/Plan";
 import PlannedExercise, {
   Exercise,
 } from "../components/Exercise/PlannedExercise";
-import { db } from "../firebase/firebase";
+import { auth, db } from "../firebase/firebase";
 import StandardButton from "../components/Button/StandardButton";
 import Modal from "../components/Modal/Modal";
 import StandardInput from "../components/Input/StandardInput";
@@ -23,12 +24,13 @@ function Planner() {
 
   const location = useLocation();
   const navigate = useNavigate();
+  const [user, loading] = useAuthState(auth);
 
   useEffect(() => {
-    if (location.state) {
+    if (user && location.state) {
       setIsPlanLoading(true);
       const savedPlanId = (location.state as any).planId;
-      const exercisesRef = ref(db, `plans/${savedPlanId}`);
+      const exercisesRef = ref(db, `${user.uid}/plans/${savedPlanId}`);
       onValue(exercisesRef, (snapshot) => {
         const plan = snapshot.val();
         setPlanId(savedPlanId);
@@ -37,7 +39,7 @@ function Planner() {
         setIsPlanLoading(false);
       });
     }
-  }, []);
+  }, [loading]);
 
   const addExercise = (exercise: Exercise) => {
     setExercises([...exercises, exercise]);
@@ -53,21 +55,23 @@ function Planner() {
     setIsSaving(true);
 
     if (!planId) {
-      push(ref(db, `plans/`), { name: tempPlanName, exercises }).then(
-        (resp) => {
-          setIsSaving(false);
-          setIsSaveModalOpen(false);
-          setPlanId(resp.key);
-          setPlanName(tempPlanName);
-        }
-      );
+      push(ref(db, `${user.uid}/plans/`), {
+        name: tempPlanName,
+        exercises,
+      }).then((resp) => {
+        setIsSaving(false);
+        setIsSaveModalOpen(false);
+        setPlanId(resp.key);
+        setPlanName(tempPlanName);
+      });
     } else {
-      set(ref(db, `plans/${planId}`), { name: planName, exercises }).then(
-        () => {
-          setIsSaveModalOpen(false);
-          setIsSaving(false);
-        }
-      );
+      set(ref(db, `${user.uid}/plans/${planId}`), {
+        name: planName,
+        exercises,
+      }).then(() => {
+        setIsSaveModalOpen(false);
+        setIsSaving(false);
+      });
     }
   };
 

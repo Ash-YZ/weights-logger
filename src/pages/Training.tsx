@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { onValue, ref, set } from "firebase/database";
 import { useLocation } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { Exercise } from "../components/Exercise/PlannedExercise";
-import { db } from "../firebase/firebase";
+import { auth, db } from "../firebase/firebase";
 import Dropdown from "../components/Dropdown/Dropdown";
 import SetCounter from "../components/SetCounter/SetCounter";
 import Timer from "../components/Timer/Timer";
@@ -13,15 +14,18 @@ function Training() {
 
   const [planName, setPlanName] = useState<string>();
   const [exercises, setExercises] = useState<Array<Exercise>>([]);
+  const [user, loading] = useAuthState(auth);
 
   useEffect(() => {
-    const exercisesRef = ref(db, `plans/${planId}`);
-    onValue(exercisesRef, (snapshot) => {
-      const plan = snapshot.val();
-      setPlanName(plan?.name);
-      setExercises(plan?.exercises);
-    });
-  }, []);
+    if (user) {
+      const exercisesRef = ref(db, `${user.uid}/plans/${planId}`);
+      onValue(exercisesRef, (snapshot) => {
+        const plan = snapshot.val();
+        setPlanName(plan?.name);
+        setExercises(plan?.exercises);
+      });
+    }
+  }, [loading]);
 
   const [selectedExercise, setSelectedExercise] = useState<number>(-1);
 
@@ -46,7 +50,10 @@ function Training() {
     setExercises(exercisesCopy);
     setSelectedExercise(-1);
 
-    set(ref(db, `plans/${planId}`), { name: planName, exercises }).then(() => {
+    set(ref(db, `${user.uid}/plans/${planId}`), {
+      name: planName,
+      exercises,
+    }).then(() => {
       console.log("SAVED PLAN !");
     });
   };

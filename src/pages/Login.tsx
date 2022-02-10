@@ -7,6 +7,7 @@ import {
   signInWithGoogle,
 } from "../firebase/firebase";
 import StandardButton from "../components/Button/StandardButton";
+import Loader from "../components/Loader/Loader";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -15,16 +16,16 @@ function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (loading) {
-      // maybe trigger a loading screen
-      return;
-    }
     if (user) navigate("/dashboard");
-  }, [user, loading]);
+  }, [user]);
 
   return (
     <div>
-      {error ? (
+      {loading ? (
+        <div className="mt-[80px]">
+          <Loader />
+        </div>
+      ) : error ? (
         <h1 className="mt-[30px] text-center">
           Error. Please try again later.
         </h1>

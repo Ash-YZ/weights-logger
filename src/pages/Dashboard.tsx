@@ -10,12 +10,14 @@ import { auth, db } from "../firebase/firebase";
 import StandardButton from "../components/Button/StandardButton";
 import Modal from "../components/Modal/Modal";
 import { objectFilter } from "../utils/DataUtils";
+import Loader from "../components/Loader/Loader";
 
 function Dashboard() {
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   const [plans, setPlans] = useState<any>();
   const [planToArchive, setPlanToArchive] = useState<string | null>();
+  const [plansLoading, setPlansLoading] = useState(true);
 
   useEffect(() => {
     if (loading) return;
@@ -31,6 +33,7 @@ function Dashboard() {
         const savedPlans = snapshot.val();
         const notArchived = objectFilter(savedPlans, (plan) => !plan.archived);
         setPlans(notArchived);
+        setPlansLoading(false);
       });
     }
   }, [loading]);
@@ -92,7 +95,11 @@ function Dashboard() {
 
   return (
     <div>
-      {error ? (
+      {plansLoading ? (
+        <div className="mt-[80px]">
+          <Loader />
+        </div>
+      ) : error ? (
         <h1 className="mt-[30px] text-center">
           Error. Please try again later.
         </h1>

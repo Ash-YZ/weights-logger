@@ -11,6 +11,7 @@ import { auth, db } from "../firebase/firebase";
 import StandardButton from "../components/Button/StandardButton";
 import Modal from "../components/Modal/Modal";
 import StandardInput from "../components/Input/StandardInput";
+import EditableInput from "../components/Input/EditableInput";
 
 function Planner() {
   const [planName, setPlanName] = useState<string>();
@@ -76,12 +77,25 @@ function Planner() {
   };
 
   return (
-    <div className="w-full relative">
+    <div className="w-full">
       <div className="text-center">
-        <h2 className="my-[20px] text-2xl font-semibold">{planName}</h2>
+        <h2 className="my-[20px] text-2xl font-semibold flex justify-center">
+          <EditableInput
+            type="text"
+            initialValue={planName}
+            update={(newValue) => {
+              setPlanName(newValue?.trim().length > 0 ? newValue : planName);
+            }}
+            className="bg-transparent text-white text-center"
+          />
+        </h2>
       </div>
       <div className="mt-0">
         <Plan
+          updateExercises={(updatedExercises: Array<Exercise>) => {
+            setExercises(updatedExercises);
+            savePlan();
+          }}
           exercises={exercises}
           remove={removeExercise}
           isPlanLoading={isPlanLoading}

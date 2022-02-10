@@ -3,14 +3,16 @@ import { CgRemove } from "react-icons/cg";
 
 import { Exercise } from "../Exercise/PlannedExercise";
 import Loader from "../Loader/Loader";
+import EditableInput from "../Input/EditableInput";
 
 interface Props {
   exercises: Array<Exercise>;
   remove: (index: number) => void;
   isPlanLoading?: boolean;
+  updateExercises: (exercises: Array<Exercise>) => void;
 }
 
-function Plan({ exercises, remove, isPlanLoading }: Props) {
+function Plan({ exercises, remove, isPlanLoading, updateExercises }: Props) {
   return (
     <table className="w-full divide-y divide-gray-200 ">
       <thead className="bg-gray-50">
@@ -54,17 +56,47 @@ function Plan({ exercises, remove, isPlanLoading }: Props) {
             key={`${exercise.name.replaceAll(" ", "")}_${Math.random() * 10}`}
           >
             <td className="px-6 py-4  w-[40%] max-w-[50px] overflow-hidden">
-              <div className="text-gray-900">{exercise.name}</div>
+              <div className="text-gray-900">
+                <EditableInput
+                  initialValue={exercise.name}
+                  type="text"
+                  update={(newValue) => {
+                    const exercisesCopy = [...exercises];
+                    exercisesCopy[index].name = newValue;
+                    updateExercises(exercisesCopy);
+                  }}
+                />
+              </div>
             </td>
             <td className="px-6 py-4 w-[20%] text-center">
-              <div className="text-gray-900">{exercise.sets}</div>
+              <div className="text-gray-900">
+                <EditableInput
+                  initialValue={exercise.sets}
+                  type="number"
+                  update={(newValue) => {
+                    const exercisesCopy = [...exercises];
+                    exercisesCopy[index].sets = newValue;
+                    updateExercises(exercisesCopy);
+                  }}
+                />
+              </div>
             </td>
             <td className="px-6 py-4 w-[20%] text-center">
-              <div className="text-gray-900">{exercise.reps}</div>
+              <div className="text-gray-900">
+                <EditableInput
+                  initialValue={exercise.reps}
+                  type="number"
+                  update={(newValue) => {
+                    const exercisesCopy = [...exercises];
+                    exercisesCopy[index].reps = newValue;
+                    updateExercises(exercisesCopy);
+                  }}
+                />
+              </div>
             </td>
             <td className="py-4 items-center">
               <CgRemove
-                className="cursor-pointer text-gray-500 min-w-[20px] min-h-[20px]"
+                className="cursor-pointer text-gray-500 min-w-[20px] min-h-[20px]  ml-[15px]"
                 onClick={() => remove(index)}
               />
             </td>

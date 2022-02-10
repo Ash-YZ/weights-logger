@@ -67,14 +67,17 @@ function Training() {
         label="Choose an exercise"
         warningMessage="Current exercise progress will be reset"
         parentSelectedOption={selectedExercise}
+        setParentSelectedOption={setSelectedExercise}
         options={exercises.map((e) => e.name)}
         selectOption={(index: number) => setSelectedExercise(index)}
         className="text-lg"
+        autoSelectSingleOption
       />
 
       {selectedExercise > -1 ? (
         <div className="mt-[20px]">
           <SetCounter
+            isSingleExercise={exercises.length === 1}
             selectedExercise={selectedExercise}
             repTarget={exercises[selectedExercise]?.reps}
             totalSets={parseInt(exercises[selectedExercise].sets, 10)}

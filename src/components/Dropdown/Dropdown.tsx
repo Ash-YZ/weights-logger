@@ -7,18 +7,22 @@ interface Props {
   label: string;
   options: Array<string>;
   parentSelectedOption?: number;
+  setParentSelectedOption?: (optionIndex: number) => void;
   selectOption: (optionIndex: number) => void;
   className?: string;
   warningMessage?: string;
+  autoSelectSingleOption?: boolean;
 }
 
 function Dropdown({
   label,
   options,
   parentSelectedOption,
+  setParentSelectedOption,
   selectOption,
   className,
   warningMessage,
+  autoSelectSingleOption,
 }: Props) {
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isWarningVisible, setIsWarningVisible] = useState(false);
@@ -28,6 +32,13 @@ function Dropdown({
     if (parentSelectedOption === -1) setSelectedOption(null);
   }, [parentSelectedOption]);
 
+  useEffect(() => {
+    if (options.length === 1 && autoSelectSingleOption) {
+      setSelectedOption(options[0]);
+      selectOption(0);
+      setParentSelectedOption(0);
+    }
+  }, [options]);
   return (
     <div>
       {isWarningVisible && (

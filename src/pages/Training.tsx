@@ -8,6 +8,7 @@ import Dropdown from "../components/Dropdown/Dropdown";
 import SetCounter from "../components/SetCounter/SetCounter";
 import Timer from "../components/Timer/Timer";
 import StandardButton from "../components/Button/StandardButton";
+import { isDateToday } from "../utils/DataUtils";
 
 function Training() {
   const location = useLocation();
@@ -68,7 +69,12 @@ function Training() {
         warningMessage="Current exercise progress will be reset"
         parentSelectedOption={selectedExercise}
         setParentSelectedOption={setSelectedExercise}
-        options={exercises.map((e) => e.name)}
+        options={exercises.map((e) => {
+          return {
+            name: e.name,
+            isDoneToday: e.records && isDateToday(e.records[0].date),
+          };
+        })}
         selectOption={(index: number) => setSelectedExercise(index)}
         className="text-lg"
         autoSelectSingleOption

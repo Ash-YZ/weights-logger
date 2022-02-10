@@ -34,10 +34,12 @@ function Planner() {
       const exercisesRef = ref(db, `${user.uid}/plans/${savedPlanId}`);
       onValue(exercisesRef, (snapshot) => {
         const plan = snapshot.val();
-        setPlanId(savedPlanId);
-        setPlanName(plan.name);
-        setExercises(plan.exercises);
-        setIsPlanLoading(false);
+        if (plan) {
+          setPlanId(savedPlanId);
+          setPlanName(plan.name);
+          setExercises(plan.exercises);
+          setIsPlanLoading(false);
+        }
       });
     }
   }, [loading]);

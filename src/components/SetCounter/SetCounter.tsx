@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import StandardInput from "../Input/StandardInput";
 import { SetRecord } from "../Exercise/PlannedExercise";
 import StandardButton from "../Button/StandardButton";
 
 interface Props {
+  isSingleExercise?: boolean;
   repTarget: string;
   totalSets: number; // 1 based
   updatePlan: (records: Array<SetRecord>) => void;
+  notes?: string;
   lastRecord?: Array<SetRecord>;
   selectedExercise: number;
 }
 
 function SetCounter({
+  isSingleExercise,
   repTarget,
   totalSets,
   updatePlan,
+  notes,
   lastRecord,
   selectedExercise,
 }: Props) {
@@ -24,6 +29,7 @@ function SetCounter({
     weight: "",
     reps: "",
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     setSetCount(1);
@@ -126,7 +132,12 @@ function SetCounter({
           isStacked
         />
       </div>
-
+      {notes && (
+        <div className="flex text-sm italic gap-2 border-2 px-3 py-2 w-full mt-[20px]">
+          <div className="font-semibold">Exercise notes:</div>
+          <div className="text-justify">{notes}</div>
+        </div>
+      )}
       <StandardButton
         label={`${setCount > totalSets - 1 ? "Done" : "Next Set"}`}
         onClick={() => {
@@ -134,6 +145,7 @@ function SetCounter({
             setSetCount(0);
             updatePlan([...setRecords, thisSetRecord]);
             setSetRecords([]);
+            if (isSingleExercise) navigate("/dashboard");
           } else {
             setSetRecords([...setRecords, thisSetRecord]);
             setSetCount(setCount + 1);

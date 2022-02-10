@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri";
-import { AiOutlineCloseCircle } from "react-icons/ai";
+import { AiOutlineCloseCircle, AiOutlineCheck } from "react-icons/ai";
 import Modal from "../Modal/Modal";
 
 interface Props {
   label: string;
-  options: Array<string>;
+  options: Array<{ name: string; isDoneToday: boolean }>;
   parentSelectedOption?: number;
+  setParentSelectedOption?: (optionIndex: number) => void;
   selectOption: (optionIndex: number) => void;
   className?: string;
   warningMessage?: string;
+  autoSelectSingleOption?: boolean;
 }
 
 function Dropdown({
   label,
   options,
   parentSelectedOption,
+  setParentSelectedOption,
   selectOption,
   className,
   warningMessage,
+  autoSelectSingleOption,
 }: Props) {
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isWarningVisible, setIsWarningVisible] = useState(false);
@@ -28,6 +32,13 @@ function Dropdown({
     if (parentSelectedOption === -1) setSelectedOption(null);
   }, [parentSelectedOption]);
 
+  useEffect(() => {
+    if (options.length === 1 && autoSelectSingleOption) {
+      setSelectedOption(options[0].name);
+      selectOption(0);
+      setParentSelectedOption(0);
+    }
+  }, [options]);
   return (
     <div>
       {isWarningVisible && (
@@ -62,16 +73,21 @@ function Dropdown({
           {options.map((option, index) => {
             return (
               <button
-                key={option + Math.random() * 10}
+                key={option.name + Math.random() * 10}
                 type="button"
-                className="w-full border-b-2 border-gray-700 capitalize py-[10px]"
+                className="w-full border-b-2 border-gray-700 capitalize py-[10px] flex items-center justify-center gap-3"
                 onClick={() => {
                   setIsOptionsVisible(false);
-                  setSelectedOption(option);
+                  setSelectedOption(option.name);
                   selectOption(index);
                 }}
               >
-                {option}
+                {option.name}{" "}
+                {option.isDoneToday && (
+                  <div className="scale-[90%] text-green-300 -mr-[30px]">
+                    <AiOutlineCheck />
+                  </div>
+                )}
               </button>
             );
           })}
@@ -80,7 +96,7 @@ function Dropdown({
 
       <button
         type="button"
-        className={`cursor-pointer relative w-full bg-white h-[40px] flex items-center justify-center text-black capitalize ${
+        className={`cursor-pointer relative w-full bg-white h-[40px] flex items-center justify-center text-black ${
           className || ""
         }`}
         onClick={() => {
@@ -88,7 +104,11 @@ function Dropdown({
           else setIsOptionsVisible(true);
         }}
       >
-        {parentSelectedOption === -1 ? label : selectedOption ?? label}
+        {options.filter((o) => !o.isDoneToday).length === 0
+          ? "All exercises logged for today"
+          : parentSelectedOption === -1
+          ? label
+          : selectedOption ?? label}
         <RiArrowDropDownLine className="absolute w-[35px] h-[35px] right-0" />
       </button>
     </div>

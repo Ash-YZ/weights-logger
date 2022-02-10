@@ -8,6 +8,7 @@ import Dropdown from "../components/Dropdown/Dropdown";
 import SetCounter from "../components/SetCounter/SetCounter";
 import Timer from "../components/Timer/Timer";
 import StandardButton from "../components/Button/StandardButton";
+import { isDateToday } from "../utils/DataUtils";
 
 function Training() {
   const location = useLocation();
@@ -67,18 +68,27 @@ function Training() {
         label="Choose an exercise"
         warningMessage="Current exercise progress will be reset"
         parentSelectedOption={selectedExercise}
-        options={exercises.map((e) => e.name)}
+        setParentSelectedOption={setSelectedExercise}
+        options={exercises.map((e) => {
+          return {
+            name: e.name,
+            isDoneToday: e.records && isDateToday(e.records[0].date),
+          };
+        })}
         selectOption={(index: number) => setSelectedExercise(index)}
         className="text-lg"
+        autoSelectSingleOption
       />
 
       {selectedExercise > -1 ? (
         <div className="mt-[20px]">
           <SetCounter
+            isSingleExercise={exercises.length === 1}
             selectedExercise={selectedExercise}
             repTarget={exercises[selectedExercise]?.reps}
             totalSets={parseInt(exercises[selectedExercise].sets, 10)}
             updatePlan={updatePlan}
+            notes={exercises[selectedExercise].notes}
             lastRecord={
               exercises[selectedExercise].records
                 ? exercises[selectedExercise].records.slice(-1)[0].setRecord

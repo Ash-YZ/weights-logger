@@ -66,13 +66,14 @@ function Training() {
 
       <Dropdown
         label="Choose an exercise"
+        allSelectionMadeLabel="All plan exercises logged today"
         warningMessage="Current exercise progress will be reset"
         parentSelectedOption={selectedExercise}
         setParentSelectedOption={setSelectedExercise}
         options={exercises.map((e) => {
           return {
             name: e.name,
-            isDoneToday: e.records && isDateToday(e.records[0].date),
+            isPreviouslySelected: e.records && isDateToday(e.records[0].date),
           };
         })}
         selectOption={(index: number) => setSelectedExercise(index)}

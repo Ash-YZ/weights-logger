@@ -5,7 +5,8 @@ import Modal from "../Modal/Modal";
 
 interface Props {
   label: string;
-  options: Array<{ name: string; isDoneToday: boolean }>;
+  allSelectionMadeLabel?: string;
+  options: Array<{ name: string; isPreviouslySelected?: boolean }>;
   parentSelectedOption?: number;
   setParentSelectedOption?: (optionIndex: number) => void;
   selectOption: (optionIndex: number) => void;
@@ -16,6 +17,7 @@ interface Props {
 
 function Dropdown({
   label,
+  allSelectionMadeLabel,
   options,
   parentSelectedOption,
   setParentSelectedOption,
@@ -83,7 +85,7 @@ function Dropdown({
                 }}
               >
                 {option.name}{" "}
-                {option.isDoneToday && (
+                {option.isPreviouslySelected && (
                   <div className="scale-[90%] text-green-300 -mr-[30px]">
                     <AiOutlineCheck />
                   </div>
@@ -104,8 +106,9 @@ function Dropdown({
           else setIsOptionsVisible(true);
         }}
       >
-        {options.filter((o) => !o.isDoneToday).length === 0
-          ? "All exercises logged for today"
+        {options.filter((o) => !o.isPreviouslySelected).length === 0 &&
+        allSelectionMadeLabel
+          ? allSelectionMadeLabel
           : parentSelectedOption === -1
           ? label
           : selectedOption ?? label}

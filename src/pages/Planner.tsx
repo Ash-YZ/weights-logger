@@ -3,7 +3,7 @@ import { onValue, push, ref, set } from "firebase/database";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { useAuthState } from "react-firebase-hooks/auth";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import Plan from "../components/Plan/Plan";
 import PlannedExercise, {
   Exercise,
@@ -15,6 +15,7 @@ import StandardInput from "../components/Input/StandardInput";
 import EditableInput from "../components/Input/EditableInput";
 
 import "react-toastify/dist/ReactToastify.css";
+import ToastNotification from "../components/Notification/ToastNotification";
 
 function Planner() {
   const [planName, setPlanName] = useState<string>();
@@ -86,7 +87,7 @@ function Planner() {
           toast.success("Plan updated successfully");
         })
         .catch(() => {
-          toast.success("Error updating plan");
+          toast.error("Error updating plan");
         })
         .finally(() => {
           setIsSaving(false);
@@ -97,13 +98,7 @@ function Planner() {
 
   return (
     <div className="w-full">
-      <ToastContainer
-        position="top-center"
-        autoClose={1000}
-        closeOnClick
-        draggable
-        theme="dark"
-      />
+      <ToastNotification />
       <div className="text-center">
         <h2 className="my-[20px] text-2xl font-semibold flex justify-center">
           <EditableInput

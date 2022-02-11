@@ -26,7 +26,7 @@ body {
 }
 
 .Toastify__toast-theme--dark {
-    @apply bg-gray-800 !important
+    @apply bg-gray-700 !important
 }
 
 .Toastify__toast {
@@ -39,4 +39,8 @@ body {
 
 .Toastify__close-button {
     @apply hidden !important;
+}
+
+.Toastify__progress-bar {
+    @apply bg-transparent !important;
 }

@@ -6,11 +6,15 @@ import { MdOutlineNotStarted } from "react-icons/md";
 import { BiArchiveIn } from "react-icons/bi";
 import { BsGraphUp } from "react-icons/bs";
 
+import { ToastContainer, toast } from "react-toastify";
 import { auth, db } from "../firebase/firebase";
 import StandardButton from "../components/Button/StandardButton";
 import Modal from "../components/Modal/Modal";
 import { objectFilter } from "../utils/DataUtils";
 import Loader from "../components/Loader/Loader";
+
+import "react-toastify/dist/ReactToastify.css";
+import ToastNotification from "../components/Notification/ToastNotification";
 
 function Dashboard() {
   const [user, loading, error] = useAuthState(auth);
@@ -41,7 +45,13 @@ function Dashboard() {
   const archivePlan = (planId) => {
     setPlanToArchive(null);
     const planRef = ref(db, `${user.uid}/plans/${planId}`);
-    update(planRef, { archived: true });
+    update(planRef, { archived: true })
+      .then(() => {
+        toast.success("Plan archived successfully");
+      })
+      .catch(() => {
+        toast.error("Error archiving plan");
+      });
   };
 
   const getPlansList = () => {
@@ -95,6 +105,7 @@ function Dashboard() {
 
   return (
     <div>
+      <ToastNotification />
       {plansLoading ? (
         <div className="mt-[80px]">
           <Loader />

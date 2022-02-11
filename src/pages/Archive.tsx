@@ -5,11 +5,13 @@ import { onValue, ref, remove, update } from "firebase/database";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BiArchiveOut } from "react-icons/bi";
 
+import { toast } from "react-toastify";
 import { auth, db } from "../firebase/firebase";
 import StandardButton from "../components/Button/StandardButton";
 import Modal from "../components/Modal/Modal";
 import { objectFilter } from "../utils/DataUtils";
 import Loader from "../components/Loader/Loader";
+import ToastNotification from "../components/Notification/ToastNotification";
 
 function Dashboard() {
   const [user, loading, error] = useAuthState(auth);
@@ -39,13 +41,25 @@ function Dashboard() {
 
   const unArchivePlan = (planId) => {
     const planRef = ref(db, `${user.uid}/plans/${planId}`);
-    update(planRef, { archived: false });
+    update(planRef, { archived: false })
+      .then(() => {
+        toast.success("Plan un-archived successfully");
+      })
+      .catch(() => {
+        toast.error("Error un-archiving plan");
+      });
   };
 
   const deletePlan = (planId) => {
     setPlanToDelete(null);
     const planRef = ref(db, `${user.uid}/plans/${planId}`);
-    remove(planRef);
+    remove(planRef)
+      .then(() => {
+        toast.success("Plan deleted successfully");
+      })
+      .catch(() => {
+        toast.error("Error deleting plan");
+      });
   };
 
   const getPlansList = () => {
@@ -91,6 +105,7 @@ function Dashboard() {
 
   return (
     <div>
+      <ToastNotification />
       {plansLoading ? (
         <div className="mt-[80px]">
           <Loader />

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { onValue, ref, set } from "firebase/database";
 import { Link, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { toast } from "react-toastify";
 import { Exercise } from "../components/Exercise/PlannedExercise";
 import { auth, db } from "../firebase/firebase";
 import Dropdown from "../components/Dropdown/Dropdown";
@@ -9,6 +10,7 @@ import SetCounter from "../components/SetCounter/SetCounter";
 import Timer from "../components/Timer/Timer";
 import StandardButton from "../components/Button/StandardButton";
 import { isDateToday } from "../utils/DataUtils";
+import ToastNotification from "../components/Notification/ToastNotification";
 
 function Training() {
   const location = useLocation();
@@ -55,15 +57,15 @@ function Training() {
     set(ref(db, `${user.uid}/plans/${planId}`), {
       name: planName,
       exercises,
-    }).then(() => {
-      console.log("SAVED PLAN !");
+    }).catch(() => {
+      toast.error("Error saving progress");
     });
   };
 
   return (
     <>
+      <ToastNotification />
       <h1 className="text-xl text-center my-[20px]">Logging - {planName}</h1>
-
       <Dropdown
         label="Choose an exercise"
         allSelectionMadeLabel="All plan exercises logged today"

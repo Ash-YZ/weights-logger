@@ -24,3 +24,19 @@ body {
     max-width: 700px;
     margin: 0 auto;
 }
+
+.Toastify__toast-theme--dark {
+    @apply bg-gray-800 !important
+}
+
+.Toastify__toast {
+    @apply min-h-[80px] !important;
+}
+
+.Toastify__toast-body {
+    @apply font-semibold !important;
+}
+
+.Toastify__close-button {
+    @apply hidden !important;
+}

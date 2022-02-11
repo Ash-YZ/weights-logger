@@ -3,6 +3,7 @@ import { onValue, push, ref, set } from "firebase/database";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { useAuthState } from "react-firebase-hooks/auth";
+import { ToastContainer, toast } from "react-toastify";
 import Plan from "../components/Plan/Plan";
 import PlannedExercise, {
   Exercise,
@@ -12,6 +13,8 @@ import StandardButton from "../components/Button/StandardButton";
 import Modal from "../components/Modal/Modal";
 import StandardInput from "../components/Input/StandardInput";
 import EditableInput from "../components/Input/EditableInput";
+
+import "react-toastify/dist/ReactToastify.css";
 
 function Planner() {
   const [planName, setPlanName] = useState<string>();
@@ -61,25 +64,46 @@ function Planner() {
       push(ref(db, `${user.uid}/plans/`), {
         name: tempPlanName,
         exercises,
-      }).then((resp) => {
-        setIsSaving(false);
-        setIsSaveModalOpen(false);
-        setPlanId(resp.key);
-        setPlanName(tempPlanName);
-      });
+      })
+        .then((resp) => {
+          setPlanId(resp.key);
+          setPlanName(tempPlanName);
+          toast.success("Plan saved successfully");
+        })
+        .catch(() => {
+          toast.error("Error saving plan saved successfully");
+        })
+        .finally(() => {
+          setIsSaving(false);
+          setIsSaveModalOpen(false);
+        });
     } else {
       set(ref(db, `${user.uid}/plans/${planId}`), {
         name: planName,
         exercises,
-      }).then(() => {
-        setIsSaveModalOpen(false);
-        setIsSaving(false);
-      });
+      })
+        .then(() => {
+          toast.success("Plan updated successfully");
+        })
+        .catch(() => {
+          toast.success("Error updating plan");
+        })
+        .finally(() => {
+          setIsSaving(false);
+          setIsSaveModalOpen(false);
+        });
     }
   };
 
   return (
     <div className="w-full">
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        closeOnClick
+        draggable
+        theme="dark"
+      />
       <div className="text-center">
         <h2 className="my-[20px] text-2xl font-semibold flex justify-center">
           <EditableInput
@@ -95,8 +119,10 @@ function Planner() {
       <div className="mt-0">
         <Plan
           updateExercises={(updatedExercises: Array<Exercise>) => {
-            setExercises(updatedExercises);
-            savePlan();
+            if (planId) {
+              setExercises(updatedExercises);
+              savePlan();
+            }
           }}
           exercises={exercises}
           remove={removeExercise}

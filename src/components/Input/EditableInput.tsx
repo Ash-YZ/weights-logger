@@ -8,7 +8,7 @@ interface Props {
 }
 
 function EditableInput({ initialValue, type, update, className }: Props) {
-  const [editedValue, setEditedValue] = useState(initialValue);
+  const [editedValue, setEditedValue] = useState<string>("");
   const [isEditing, setIsEditing] = useState(false);
 
   const ref = useRef(null);
@@ -20,6 +20,9 @@ function EditableInput({ initialValue, type, update, className }: Props) {
         <div
           onClick={() => {
             setIsEditing(true);
+            setEditedValue(
+              editedValue?.trim().length > 0 ? editedValue : initialValue
+            );
             ref.current.focus();
           }}
           className={`flex gap-1 items-center ${

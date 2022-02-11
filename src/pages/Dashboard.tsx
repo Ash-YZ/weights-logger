@@ -6,7 +6,7 @@ import { MdOutlineNotStarted } from "react-icons/md";
 import { BiArchiveIn } from "react-icons/bi";
 import { BsGraphUp } from "react-icons/bs";
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { auth, db } from "../firebase/firebase";
 import StandardButton from "../components/Button/StandardButton";
 import Modal from "../components/Modal/Modal";

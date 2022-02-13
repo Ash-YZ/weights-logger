@@ -35,12 +35,17 @@ function Dropdown({
   }, [parentSelectedOption]);
 
   useEffect(() => {
-    if (options.length === 1 && autoSelectSingleOption) {
+    if (
+      options.length === 1 &&
+      autoSelectSingleOption &&
+      !options[0].isPreviouslySelected
+    ) {
       setSelectedOption(options[0].name);
       selectOption(0);
       setParentSelectedOption(0);
     }
   }, [options]);
+
   return (
     <div>
       {isWarningVisible && (

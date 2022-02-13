@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import StandardInput from "../Input/StandardInput";
 import { SetRecord } from "../Exercise/PlannedExercise";
 import StandardButton from "../Button/StandardButton";
 
 interface Props {
-  isSingleExercise?: boolean;
   repTarget: string;
   totalSets: number; // 1 based
   updatePlan: (records: Array<SetRecord>) => void;
@@ -15,7 +13,6 @@ interface Props {
 }
 
 function SetCounter({
-  isSingleExercise,
   repTarget,
   totalSets,
   updatePlan,
@@ -29,7 +26,6 @@ function SetCounter({
     weight: "",
     reps: "",
   });
-  const navigate = useNavigate();
 
   useEffect(() => {
     setSetCount(1);
@@ -145,7 +141,6 @@ function SetCounter({
             setSetCount(0);
             updatePlan([...setRecords, thisSetRecord]);
             setSetRecords([]);
-            if (isSingleExercise) navigate("/dashboard");
           } else {
             setSetRecords([...setRecords, thisSetRecord]);
             setSetCount(setCount + 1);
